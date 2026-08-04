@@ -1,27 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const SPLASH_KEY = 'meplay_splash_shown';
-const HOLD_MS = 1400;
 const FADE_MS = 400;
+const FALLBACK_MAX_MS = 18000; // safety net in case the video never fires "ended"
 
 export default function Splash({ onDone }) {
   const [fadingOut, setFadingOut] = useState(false);
+  const finishedRef = useRef(false);
+
+  function finish() {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+    sessionStorage.setItem(SPLASH_KEY, '1');
+    setFadingOut(true);
+    setTimeout(onDone, FADE_MS);
+  }
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setFadingOut(true), HOLD_MS);
-    const doneTimer = setTimeout(() => {
-      sessionStorage.setItem(SPLASH_KEY, '1');
-      onDone();
-    }, HOLD_MS + FADE_MS);
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(doneTimer);
-    };
-  }, [onDone]);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finish();
+      return;
+    }
+    const fallback = setTimeout(finish, FALLBACK_MAX_MS);
+    return () => clearTimeout(fallback);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={`splash ${fadingOut ? 'splash-out' : ''}`}>
-      <img src="/MElogo.svg" alt="Mission Earth" className="splash-logo" />
+      <video
+        className="splash-logo"
+        src="/melogo.mp4"
+        autoPlay
+        muted
+        playsInline
+        onEnded={finish}
+        onError={finish}
+      />
     </div>
   );
 }

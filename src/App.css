@@ -380,8 +380,8 @@ main {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  /* matches the navy baked into MElogo.svg's own artwork so the edges blend seamlessly */
-  background: #103142;
+  /* matches the navy baked into melogo.mp4's own frame so the edges blend seamlessly */
+  background: #0d3040;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,6 +395,7 @@ main {
 
 .splash-logo {
   width: min(70vw, 360px);
+  aspect-ratio: 1 / 1;
   animation: splash-in 600ms ease-out;
 }
 
@@ -414,8 +415,8 @@ main {
   position: fixed;
   inset: 0;
   z-index: 900;
-  /* matches the navy baked into loading.svg's own artwork so the edges blend seamlessly */
-  background: #002740;
+  /* matches the navy baked into loading.mp4's own frame so the edges blend seamlessly */
+  background: #022237;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -433,23 +434,11 @@ main {
 
 .page-loader-icon {
   width: min(40vw, 140px);
-  animation: loader-pulse 1.1s ease-in-out infinite;
-}
-
-@keyframes loader-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+  aspect-ratio: 1 / 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .splash-logo,
-  .page-loader-icon {
+  .splash-logo {
     animation: none;
   }
 }
