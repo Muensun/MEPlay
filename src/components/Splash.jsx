@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const SPLASH_KEY = 'meplay_splash_shown';
 const FADE_MS = 400;
-const FALLBACK_MAX_MS = 18000; // safety net in case the video never fires "ended"
+const FALLBACK_MAX_MS = 10000; // safety net in case the video never fires "ended"
 
 export default function Splash({ onDone }) {
   const [fadingOut, setFadingOut] = useState(false);
