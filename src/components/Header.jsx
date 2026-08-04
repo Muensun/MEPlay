@@ -8,8 +8,8 @@ export default function Header() {
   return (
     <header className="site-header">
       <Link to="/" className="brand">
-        <img src="/logo.png" alt="MEPlay" className="brand-logo" />
-        MEPlay
+        <img src="/logo.png" alt="" className="brand-logo" />
+        <img src="/nameapp.png" alt="MEPlay" className="brand-wordmark" />
       </Link>
       <nav className="nav-links">
         <Link to="/">หน้าแรก</Link>

@@ -33,7 +33,9 @@ export default function Home() {
   return (
     <div className="page">
       <section className="hero">
-        <h1>MEPlay</h1>
+        <h1>
+          <img src="/nameapp.png" alt="MEPlay" className="hero-wordmark" />
+        </h1>
         <p>รวมเกมสนุกๆ จาก Mission Earth ไว้ในที่เดียว สะสมแต้ม แข่งอันดับกับเพื่อน</p>
         {!user && (
           <Link to="/login" className="btn-primary btn-lg">

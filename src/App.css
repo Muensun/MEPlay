@@ -28,6 +28,12 @@
   display: block;
 }
 
+.brand-wordmark {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
 .nav-links {
   display: flex;
   gap: 16px;
@@ -85,6 +91,14 @@ main {
 
 .hero h1 {
   font-size: clamp(32px, 7vw, 48px);
+  margin: 0 0 8px;
+}
+
+.hero-wordmark {
+  width: min(70vw, 320px);
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .hero p {
