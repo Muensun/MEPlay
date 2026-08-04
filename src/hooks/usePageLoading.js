@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const MIN_LOADING_MS = 1500;
+const MIN_LOADING_MS = 3000;
 
 export function usePageLoading() {
   const location = useLocation();
