@@ -24,6 +24,7 @@ export default function Auth() {
 
   return (
     <div className="page auth-page">
+      <img src="/logo.png" alt="MEPlay" className="auth-logo" />
       <div className="auth-card">
         <div className="auth-tabs">
           <button

@@ -1,51 +1,66 @@
 .site-header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 12px 24px;
+  background: var(--header-bg);
+  color: var(--header-text);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .brand {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   text-decoration: none;
-  color: var(--text-h);
+  color: var(--header-text);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: block;
 }
 
 .nav-links {
   display: flex;
   gap: 16px;
   flex: 1;
+  min-width: 0;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: var(--muted);
+  color: var(--header-muted);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .nav-links a:hover {
-  color: var(--primary);
+  color: var(--brand-gold);
 }
 
 .header-user {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
 .points-pill {
-  background: var(--primary-bg);
-  color: var(--primary-dark);
+  background: rgba(226, 159, 55, 0.18);
+  color: var(--brand-gold);
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .display-name {
@@ -60,26 +75,27 @@ main {
   max-width: 880px;
   margin: 0 auto;
   padding: 32px 24px 64px;
+  width: 100%;
 }
 
 .hero {
   text-align: center;
-  padding: 48px 0;
+  padding: clamp(24px, 6vw, 48px) 0;
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: clamp(32px, 7vw, 48px);
 }
 
 .hero p {
   color: var(--muted);
-  font-size: 18px;
+  font-size: clamp(15px, 2.5vw, 18px);
   margin-bottom: 24px;
 }
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-top: 16px;
 }
@@ -87,6 +103,7 @@ main {
 .game-card {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-top: 4px solid var(--accent, var(--brand-gold));
   border-radius: 16px;
   padding: 24px;
   text-align: center;
@@ -126,15 +143,17 @@ main {
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
+  min-height: 40px;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--brand-navy);
 }
 
 .btn-primary:hover {
   background: var(--primary-dark);
+  color: var(--brand-navy);
 }
 
 .btn-lg {
@@ -154,18 +173,36 @@ main {
   border-color: var(--muted);
 }
 
+.header-user .btn-ghost {
+  color: var(--header-muted);
+  border-color: rgba(244, 241, 232, 0.25);
+}
+
+.header-user .btn-ghost:hover {
+  color: var(--header-text);
+  border-color: var(--header-text);
+}
+
 /* Auth */
 .auth-page {
   display: flex;
-  justify-content: center;
-  padding-top: 48px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: clamp(24px, 6vw, 48px);
+}
+
+.auth-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  margin-bottom: 20px;
 }
 
 .auth-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 32px;
+  padding: clamp(20px, 5vw, 32px);
   width: 100%;
   max-width: 380px;
   box-shadow: var(--shadow);
@@ -191,7 +228,7 @@ main {
 
 .auth-tabs button.active {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--brand-navy);
 }
 
 .auth-card form {
@@ -256,20 +293,23 @@ main {
 .leaderboard-list .name {
   flex: 1;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .leaderboard-list .score {
   color: var(--primary-dark);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 /* Word guess game */
 .word-display {
-  font-size: 40px;
-  letter-spacing: 8px;
+  font-size: clamp(28px, 7vw, 40px);
+  letter-spacing: clamp(4px, 1.5vw, 8px);
   font-weight: 700;
   margin: 24px 0 8px;
   color: var(--text-h);
+  word-break: break-all;
 }
 
 .guess-form {
@@ -281,6 +321,7 @@ main {
 
 .guess-form input {
   flex: 1;
+  min-width: 0;
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid var(--border);
@@ -304,7 +345,7 @@ main {
 }
 
 .result-banner.lose {
-  background: rgba(214, 69, 69, 0.1);
+  background: var(--danger-bg);
   color: var(--danger);
 }
 
@@ -326,10 +367,35 @@ main {
 
 .guess-history li.correct {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--brand-navy);
 }
 
 .guess-history li.wrong {
-  background: rgba(214, 69, 69, 0.15);
+  background: var(--danger-bg);
   color: var(--danger);
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding: 10px 16px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex: none;
+  }
+
+  .display-name {
+    display: none;
+  }
+
+  .page {
+    padding: 24px 16px 48px;
+  }
+
+  .guess-form {
+    max-width: none;
+  }
 }

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { colorForIndex } from '../theme/palette';
 
 const games = [
   {
@@ -44,8 +45,12 @@ export default function Home() {
       <section>
         <h2>เกมทั้งหมด</h2>
         <div className="game-grid">
-          {games.map((game) => (
-            <div key={game.id} className={`game-card ${!game.available ? 'disabled' : ''}`}>
+          {games.map((game, i) => (
+            <div
+              key={game.id}
+              className={`game-card ${!game.available ? 'disabled' : ''}`}
+              style={{ '--accent': colorForIndex(i + 1) }}
+            >
               <div className="game-emoji">{game.emoji}</div>
               <h3>{game.title}</h3>
               <p>{game.description}</p>

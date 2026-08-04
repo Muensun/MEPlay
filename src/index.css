@@ -1,17 +1,34 @@
 :root {
-  --text: #3a4a43;
-  --text-h: #10231b;
-  --bg: #f4faf6;
-  --surface: #ffffff;
-  --border: #dbe8e0;
-  --primary: #1f9d63;
-  --primary-dark: #15794c;
-  --primary-bg: rgba(31, 157, 99, 0.1);
-  --muted: #6b8079;
-  --danger: #d64545;
-  --shadow: rgba(16, 35, 27, 0.08) 0 4px 16px -4px;
+  /* Mission Earth CI palette */
+  --brand-navy: #041218;
+  --brand-teal-dark: #275d71;
+  --brand-teal: #429195;
+  --brand-mint: #a1d0be;
+  --brand-cream: #e6d9ac;
+  --brand-gold: #e29f37;
+  --brand-burnt: #bd6c27;
+  --brand-rust: #ad471e;
+  --brand-red: #a02f1f;
+  --brand-maroon: #8e2d2b;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --text: #2c3a3f;
+  --text-h: var(--brand-navy);
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --border: #e3e1d7;
+  --primary: var(--brand-gold);
+  --primary-dark: var(--brand-burnt);
+  --primary-bg: rgba(226, 159, 55, 0.14);
+  --muted: #5a6868;
+  --danger: var(--brand-red);
+  --danger-bg: rgba(160, 47, 31, 0.1);
+  --shadow: rgba(4, 18, 24, 0.08) 0 4px 16px -4px;
+
+  --header-bg: var(--brand-navy);
+  --header-text: #f4f1e8;
+  --header-muted: #9db0b6;
+
+  --sans: 'K2D', system-ui, 'Segoe UI', Roboto, sans-serif;
 
   font: 16px/1.5 var(--sans);
   color-scheme: light dark;
@@ -23,16 +40,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #c3d3cb;
-    --text-h: #eef7f1;
-    --bg: #0f1712;
-    --surface: #16211b;
-    --border: #24352b;
-    --primary: #3bc984;
-    --primary-dark: #2fa06a;
-    --primary-bg: rgba(59, 201, 132, 0.15);
-    --muted: #8aa398;
-    --shadow: rgba(0, 0, 0, 0.4) 0 4px 16px -4px;
+    --text: #cdd6d3;
+    --text-h: #f4f1e8;
+    --bg: #0c1215;
+    --surface: #141d21;
+    --border: #26333a;
+    --primary: var(--brand-gold);
+    --primary-dark: #f0b25c;
+    --primary-bg: rgba(226, 159, 55, 0.18);
+    --muted: #8a9a9a;
+    --danger: #d1543f;
+    --danger-bg: rgba(209, 84, 63, 0.16);
+    --shadow: rgba(0, 0, 0, 0.45) 0 4px 16px -4px;
   }
 }
 
@@ -53,6 +72,7 @@ body {
 h1, h2, h3 {
   color: var(--text-h);
   margin: 0 0 8px;
+  font-weight: 700;
 }
 
 p {
@@ -65,6 +85,10 @@ a {
 
 button, input {
   font: inherit;
+}
+
+img {
+  max-width: 100%;
 }
 
 .muted {

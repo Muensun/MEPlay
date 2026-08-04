@@ -8,7 +8,8 @@ export default function Header() {
   return (
     <header className="site-header">
       <Link to="/" className="brand">
-        <span className="brand-mark">🌍</span> MEPlay
+        <img src="/logo.png" alt="MEPlay" className="brand-logo" />
+        MEPlay
       </Link>
       <nav className="nav-links">
         <Link to="/">หน้าแรก</Link>
