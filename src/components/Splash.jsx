@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { en } from '../i18n/en';
 
 const SPLASH_KEY = 'meplay_splash_shown';
 const FADE_MS = 400;
@@ -37,7 +38,7 @@ export default function Splash({ onDone }) {
         onEnded={finish}
         onError={finish}
       />
-      <p className="splash-credit">Created by</p>
+      <p className="splash-credit">{en.splash.credit}</p>
     </div>
   );
 }

@@ -1,31 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { colorForIndex } from '../theme/palette';
-
-const games = [
-  {
-    id: 'wordguess',
-    title: 'ทายคำ',
-    emoji: '🔤',
-    description: 'ทายคำศัพท์ให้ถูกภายในจำนวนครั้งที่กำหนด',
-    path: '/game/wordguess',
-    available: true,
-  },
-  {
-    id: 'coming-1',
-    title: 'เร็วๆ นี้',
-    emoji: '🎲',
-    description: 'เกมใหม่กำลังจะมา',
-    available: false,
-  },
-  {
-    id: 'coming-2',
-    title: 'เร็วๆ นี้',
-    emoji: '🧩',
-    description: 'เกมใหม่กำลังจะมา',
-    available: false,
-  },
-];
+import { games } from '../config/games';
+import { en } from '../i18n/en';
 
 export default function Home() {
   const { user } = useAuth();
@@ -34,18 +11,18 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <h1>
-          <img src="/nameapp.png" alt="MEPlay" className="hero-wordmark" />
+          <img src="/nameapp.png" alt={en.home.heroWordmarkAlt} className="hero-wordmark" />
         </h1>
 
         {!user && (
           <Link to="/login" className="btn-primary btn-lg">
-            สร้างบัญชีเพื่อเริ่มเล่น
+            {en.home.heroCtaSignedOut}
           </Link>
         )}
       </section>
 
       <section>
-        <h2>เกมทั้งหมด</h2>
+        <h2>{en.home.gamesHeading}</h2>
         <div className="game-grid">
           {games.map((game, i) => (
             <div
@@ -53,15 +30,15 @@ export default function Home() {
               className={`game-card ${!game.available ? 'disabled' : ''}`}
               style={{ '--accent': colorForIndex(i + 1) }}
             >
-              <div className="game-emoji">{game.emoji}</div>
+              <img src={game.logo} alt="" className="game-card-logo" />
               <h3>{game.title}</h3>
               <p>{game.description}</p>
               {game.available ? (
                 <Link to={user ? game.path : '/login'} className="btn-primary">
-                  {user ? 'เล่นเลย' : 'เข้าสู่ระบบเพื่อเล่น'}
+                  {user ? en.home.playCta : en.home.signInToPlayCta}
                 </Link>
               ) : (
-                <span className="badge">เร็วๆ นี้</span>
+                <span className="badge">{en.home.comingSoon}</span>
               )}
             </div>
           ))}

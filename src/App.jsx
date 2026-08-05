@@ -8,7 +8,7 @@ import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Leaderboard from './pages/Leaderboard';
-import WordGuess from './games/wordguess/WordGuess';
+import MEWord from './games/meword/MEWord';
 import './App.css';
 
 function RequireAuth({ children }) {
@@ -31,10 +31,10 @@ export default function App() {
           <Route path="/login" element={<Auth />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route
-            path="/game/wordguess"
+            path="/game/meword"
             element={
               <RequireAuth>
-                <WordGuess />
+                <MEWord />
               </RequireAuth>
             }
           />

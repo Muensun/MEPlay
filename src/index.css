@@ -28,6 +28,12 @@
   --header-text: #f4f1e8;
   --header-muted: #9db0b6;
 
+  /* Sampled from the signin.png/login.png/logout.png button mockups */
+  --pill-bg: #eab75d;
+  --pill-signin-ink: #124700;
+  --pill-login-ink: #002740;
+  --pill-logout-ink: #912203;
+
   --sans: 'K2D', system-ui, 'Segoe UI', Roboto, sans-serif;
 
   font: 16px/1.5 var(--sans);

@@ -1,75 +1,122 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { en } from '../i18n/en';
+import { accrue } from '../lib/time';
+import {
+  loadUsers,
+  saveUsers,
+  loadAllStats,
+  saveAllStats,
+  loadCurrentUserId,
+  saveCurrentUserId,
+  makeId,
+  newUserStats,
+} from '../lib/storage';
 
 const AuthContext = createContext(null);
-
-const USERS_KEY = 'meplay_users';
-const SESSION_KEY = 'meplay_session';
-
-function loadUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY)) ?? [];
-  } catch {
-    return [];
-  }
-}
-
-function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
+const ACCRUAL_POLL_MS = 30 * 1000;
 
 export function AuthProvider({ children }) {
   const [users, setUsers] = useState(loadUsers);
-  const [username, setUsername] = useState(() => localStorage.getItem(SESSION_KEY));
+  const [allStats, setAllStats] = useState(loadAllStats);
+  const [currentUserId, setCurrentUserId] = useState(loadCurrentUserId);
 
   useEffect(() => saveUsers(users), [users]);
+  useEffect(() => saveAllStats(allStats), [allStats]);
+  useEffect(() => saveCurrentUserId(currentUserId), [currentUserId]);
 
+  // Accrue the active account's time balance on load, on focus, and every
+  // 30s while idle — derived from timestamps, never a running countdown,
+  // so it's correct even if the tab was closed for days.
   useEffect(() => {
-    if (username) localStorage.setItem(SESSION_KEY, username);
-    else localStorage.removeItem(SESSION_KEY);
-  }, [username]);
+    if (!currentUserId) return undefined;
 
-  const user = users.find((u) => u.username === username) ?? null;
-
-  function register(newUsername, password, displayName) {
-    const clean = newUsername.trim().toLowerCase();
-    if (!clean || !password) return { ok: false, error: 'กรอกชื่อผู้ใช้และรหัสผ่านให้ครบ' };
-    if (users.some((u) => u.username === clean)) {
-      return { ok: false, error: 'มีชื่อผู้ใช้นี้อยู่แล้ว' };
+    function tick() {
+      setAllStats((prev) => {
+        const current = prev[currentUserId];
+        if (!current) return prev;
+        const next = accrue(current, Date.now());
+        if (next === current) return prev;
+        return { ...prev, [currentUserId]: next };
+      });
     }
-    const newUser = {
-      username: clean,
-      password,
-      displayName: displayName.trim() || clean,
-      points: 0,
-      createdAt: Date.now(),
+
+    tick();
+    const interval = setInterval(tick, ACCRUAL_POLL_MS);
+    window.addEventListener('focus', tick);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', tick);
     };
+  }, [currentUserId]);
+
+  const user = users.find((u) => u.id === currentUserId) ?? null;
+  const stats = currentUserId ? allStats[currentUserId] ?? null : null;
+
+  function usernameTaken(clean) {
+    return users.some((u) => u.username.toLowerCase() === clean);
+  }
+
+  function createAccount(username, avatarId) {
+    const clean = username.trim();
+    if (!clean) return { ok: false, error: en.auth.errors.usernameRequired };
+    if (!avatarId) return { ok: false, error: en.auth.errors.avatarRequired };
+    if (usernameTaken(clean.toLowerCase())) {
+      return { ok: false, error: en.auth.errors.usernameTaken };
+    }
+
+    const id = makeId('user');
+    const now = Date.now();
+    const newUser = { id, username: clean, avatarId, createdAt: now };
+
     setUsers((prev) => [...prev, newUser]);
-    setUsername(clean);
+    setAllStats((prev) => ({ ...prev, [id]: newUserStats(id, now) }));
+    setCurrentUserId(id);
     return { ok: true };
   }
 
-  function login(loginUsername, password) {
-    const clean = loginUsername.trim().toLowerCase();
-    const found = users.find((u) => u.username === clean);
-    if (!found || found.password !== password) {
-      return { ok: false, error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' };
-    }
-    setUsername(clean);
+  function loginAs(userId) {
+    const found = users.find((u) => u.id === userId);
+    if (!found) return { ok: false, error: en.auth.errors.accountNotFound };
+    setCurrentUserId(userId);
     return { ok: true };
   }
 
   function logout() {
-    setUsername(null);
+    // Clears session only — meScore/timeSec stay in allStats under the
+    // account's id and are restored on next login.
+    setCurrentUserId(null);
   }
 
-  function addPoints(amount) {
-    if (!username) return;
-    setUsers((prev) =>
-      prev.map((u) => (u.username === username ? { ...u, points: u.points + amount } : u))
-    );
+  function addScore(amount) {
+    if (!currentUserId || !amount) return;
+    setAllStats((prev) => {
+      const current = prev[currentUserId];
+      if (!current) return prev;
+      return { ...prev, [currentUserId]: { ...current, meScore: current.meScore + amount } };
+    });
   }
 
-  const value = { user, users, register, login, logout, addPoints };
+  function spendTime(amountSec) {
+    if (!currentUserId || !amountSec) return;
+    setAllStats((prev) => {
+      const current = prev[currentUserId];
+      if (!current) return prev;
+      const timeSec = Math.max(0, current.timeSec - amountSec);
+      return { ...prev, [currentUserId]: { ...current, timeSec } };
+    });
+  }
+
+  const value = {
+    user,
+    users,
+    stats,
+    allStats,
+    createAccount,
+    loginAs,
+    logout,
+    addScore,
+    spendTime,
+  };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

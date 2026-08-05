@@ -1,84 +1,133 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { AVATARS, avatarUrlFor } from '../assets/avatars';
+import { en } from '../i18n/en';
+import PillButton from '../components/PillButton';
 
 export default function Auth() {
-  const [mode, setMode] = useState('register');
-  const [username, setUsername] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { register, login } = useAuth();
+  const { users, createAccount, loginAs } = useAuth();
   const navigate = useNavigate();
+  const [mode, setMode] = useState(users.length > 0 ? 'login' : 'signin');
+  const [username, setUsername] = useState('');
+  const [avatarId, setAvatarId] = useState(null);
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleCreate(e) {
     e.preventDefault();
     setError('');
-    const result =
-      mode === 'register'
-        ? register(username, password, displayName)
-        : login(username, password);
+    setBusy(true);
+    // No real network call yet (local-only), but the loading state is
+    // wired for when account creation talks to a server.
+    await Promise.resolve();
+    const result = createAccount(username, avatarId);
+    setBusy(false);
+    if (result.ok) navigate('/');
+    else setError(result.error);
+  }
+
+  async function handleLogin(userId) {
+    setError('');
+    setBusy(true);
+    await Promise.resolve();
+    const result = loginAs(userId);
+    setBusy(false);
     if (result.ok) navigate('/');
     else setError(result.error);
   }
 
   return (
     <div className="page auth-page">
-      <img src="/logo.png" alt="MEPlay" className="auth-logo" />
+      <img src="/logo.png" alt={en.common.appName} className="auth-logo" />
       <div className="auth-card">
         <div className="auth-tabs">
           <button
-            className={mode === 'register' ? 'active' : ''}
-            onClick={() => setMode('register')}
+            className={mode === 'signin' ? 'active' : ''}
+            onClick={() => setMode('signin')}
             type="button"
           >
-            สมัครสมาชิก
+            {en.auth.signInTab}
           </button>
           <button
             className={mode === 'login' ? 'active' : ''}
             onClick={() => setMode('login')}
             type="button"
           >
-            เข้าสู่ระบบ
+            {en.auth.loginTab}
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          {mode === 'register' && (
+        {mode === 'signin' ? (
+          <form onSubmit={handleCreate}>
+            <h2 className="auth-heading">{en.auth.signInHeading}</h2>
             <label>
-              ชื่อที่แสดง
+              {en.auth.usernameLabel}
               <input
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="เช่น สมชาย"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder={en.auth.usernamePlaceholder}
+                required
               />
             </label>
-          )}
-          <label>
-            ชื่อผู้ใช้
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="username"
-              required
-            />
-          </label>
-          <label>
-            รหัสผ่าน
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
 
-          {error && <p className="error-text">{error}</p>}
+            <p className="avatar-picker-label">{en.auth.chooseAvatarLabel}</p>
+            <div className="avatar-picker">
+              {AVATARS.map((a) => (
+                <button
+                  key={a.id}
+                  type="button"
+                  className={`avatar-option ${avatarId === a.id ? 'selected' : ''}`}
+                  onClick={() => setAvatarId(a.id)}
+                  aria-pressed={avatarId === a.id}
+                >
+                  <img src={a.url} alt="" />
+                </button>
+              ))}
+            </div>
 
-          <button type="submit" className="btn-primary btn-lg">
-            {mode === 'register' ? 'สร้างบัญชี' : 'เข้าสู่ระบบ'}
-          </button>
-        </form>
+            {error && <p className="error-text">{error}</p>}
+
+            <PillButton variant="signin" type="submit" loading={busy} disabled={busy}>
+              {busy ? en.auth.creatingAccount : en.auth.createAccountCta}
+            </PillButton>
+          </form>
+        ) : (
+          <div>
+            <h2 className="auth-heading">{en.auth.loginHeading}</h2>
+            {users.length === 0 ? (
+              <>
+                <p className="muted">{en.auth.noAccountsYet}</p>
+                <PillButton variant="signin" onClick={() => setMode('signin')}>
+                  {en.auth.createInsteadCta}
+                </PillButton>
+              </>
+            ) : (
+              <>
+                <p className="avatar-picker-label">{en.auth.existingAccountsHeading}</p>
+                <ul className="account-list">
+                  {users.map((u) => (
+                    <li key={u.id}>
+                      <button
+                        type="button"
+                        className="account-option"
+                        onClick={() => handleLogin(u.id)}
+                        disabled={busy}
+                      >
+                        <img src={avatarUrlFor(u.avatarId)} alt="" />
+                        <span>{u.username}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {error && <p className="error-text">{error}</p>}
+                <PillButton variant="login" onClick={() => setMode('signin')} disabled={busy}>
+                  {en.auth.createInsteadCta}
+                </PillButton>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
