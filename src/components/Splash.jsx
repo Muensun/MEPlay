@@ -37,6 +37,7 @@ export default function Splash({ onDone }) {
         onEnded={finish}
         onError={finish}
       />
+      <p className="splash-credit">Created by</p>
     </div>
   );
 }
