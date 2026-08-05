@@ -183,6 +183,13 @@ export default function Question({ word, alreadySolved, onBack }) {
         ))}
       </div>
 
+      <div className="meword-answer-lang">
+        <img src={`/games/meword/${word.lang === 'th' ? 'th' : 'eng'}.png`} alt="" />
+        <span>
+          {t.answerInLabel} {t.answerLanguage[word.lang === 'th' ? 'th' : 'en']}
+        </span>
+      </div>
+
       <form onSubmit={handleSubmit} className={`guess-form ${shaking ? 'shake' : ''}`}>
         <input
           ref={inputRef}

@@ -753,6 +753,24 @@ main {
   letter-spacing: 2px;
 }
 
+.meword-answer-lang {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.meword-answer-lang img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 @keyframes meword-shake {
   10%,
   90% {

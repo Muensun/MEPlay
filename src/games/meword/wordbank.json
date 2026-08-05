@@ -5,6 +5,7 @@
     {
       "id": "MW0001",
       "answer": "mycorrhiza",
+      "lang": "en",
       "category": [
         "environment"
       ],
@@ -19,6 +20,7 @@
     {
       "id": "MW0002",
       "answer": "ตัดไม้ทำลายป่า",
+      "lang": "th",
       "category": [
         "environment"
       ],
@@ -33,6 +35,7 @@
     {
       "id": "MW0003",
       "answer": "Carnivore",
+      "lang": "en",
       "category": [
         "environment"
       ],
@@ -47,6 +50,7 @@
     {
       "id": "MW0004",
       "answer": "บัญชีแดง",
+      "lang": "th",
       "category": [
         "environment"
       ],
@@ -61,6 +65,7 @@
     {
       "id": "MW0005",
       "answer": "พันธุกรรม",
+      "lang": "th",
       "category": [
         "environment",
         "social"
@@ -76,6 +81,7 @@
     {
       "id": "MW0006",
       "answer": "อพยพ",
+      "lang": "th",
       "category": [
         "environment",
         "social"
@@ -91,6 +97,7 @@
     {
       "id": "MW0007",
       "answer": "ผู้ล่า",
+      "lang": "th",
       "category": [
         "environment"
       ],
@@ -105,6 +112,7 @@
     {
       "id": "MW0008",
       "answer": "Wind Turbine",
+      "lang": "en",
       "category": [
         "environment"
       ],

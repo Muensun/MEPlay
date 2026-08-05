@@ -88,6 +88,11 @@ export const en = {
       lowBalanceTitle: 'Not enough time',
       lowBalanceMessage: 'You need at least 30 seconds of play time to start a word.',
       nextRefillPrefix: 'Next +1:00 in',
+      answerInLabel: 'Answer in',
+      answerLanguage: {
+        en: 'English',
+        th: 'Thai',
+      },
       answerPlaceholder: 'Type your answer',
       submitCta: 'Submit',
       correctFeedback: 'Correct!',

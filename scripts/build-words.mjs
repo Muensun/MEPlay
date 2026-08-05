@@ -29,6 +29,7 @@ const words = await Promise.all(
       return {
         id: w.id,
         answer: w.vocab, // plaintext kept only for the post-timeout reveal card
+        lang: w.lang, // 'en' | 'th' — tells the player which language to type in
         category: w.category ?? [],
         syllables: w.syllables,
         stars: w.stars,
