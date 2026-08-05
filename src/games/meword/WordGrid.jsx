@@ -32,7 +32,7 @@ export default function WordGrid({ onSelectWord }) {
   const solvedCount = Object.values(byWord).filter((w) => w.solved).length;
 
   return (
-    <div className="page">
+    <div className="page meword-grid-page">
       <button className="btn-ghost" onClick={() => navigate('/')} type="button">
         {t.backToHome}
       </button>
@@ -41,7 +41,10 @@ export default function WordGrid({ onSelectWord }) {
         <h1>{config.title}</h1>
         <div className="meword-grid-summary">
           <span>{t.solvedSummary(solvedCount, WORDS.length)}</span>
-          <span>{t.totalEarnedLabel(totalEarned)}</span>
+          <span className="meword-total-earned">
+            <img src="/point.png" alt="" className="score-pill-icon" />
+            {totalEarned.toLocaleString()}
+          </span>
         </div>
       </div>
 
@@ -57,11 +60,12 @@ export default function WordGrid({ onSelectWord }) {
       )}
 
       <div className="word-grid">
-        {ordered.map((word) => {
+        {ordered.map((word, i) => {
           const progress = byWord[word.id];
           return (
             <WordCard
               key={word.id}
+              index={i + 1}
               stars={word.stars}
               solved={Boolean(progress?.solved)}
               bestScore={progress?.bestScore ?? 0}

@@ -6,9 +6,12 @@ function Stars({ count }) {
   return (
     <span className="word-card-stars" aria-label={`${count} star difficulty`}>
       {Array.from({ length: MAX_STARS }, (_, i) => (
-        <span key={i} className={i < count ? 'star filled' : 'star'}>
-          ★
-        </span>
+        <img
+          key={i}
+          src="/games/meword/star.png"
+          alt=""
+          className={i < count ? 'star filled' : 'star'}
+        />
       ))}
     </span>
   );
@@ -17,8 +20,9 @@ function Stars({ count }) {
 // Deliberately narrow props — a card must be structurally incapable of
 // rendering the word, image, category, or syllable count, since any of
 // those would leak the answer before the question even starts. Only the
-// star rating (unsolved) or a checkmark + best score (solved) shows.
-export default function WordCard({ stars, solved, bestScore, disabled, onClick }) {
+// item number, star rating (unsolved) or a checkmark + best score
+// (solved) shows.
+export default function WordCard({ index, stars, solved, bestScore, disabled, onClick }) {
   return (
     <button
       type="button"
@@ -26,6 +30,7 @@ export default function WordCard({ stars, solved, bestScore, disabled, onClick }
       onClick={onClick}
       disabled={disabled}
     >
+      <span className="word-card-index">{index}</span>
       {solved ? (
         <>
           <span className="word-card-check" aria-hidden="true">

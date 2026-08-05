@@ -22,7 +22,6 @@ export const en = {
   header: {
     homeLink: 'Home',
     leaderboardLink: 'Leaderboard',
-    scoreUnit: 'ME',
     signInCta: 'Sign in / Log in',
     signOutMenuItem: 'Sign out',
     timeDepletedLabel: 'Out of time',
@@ -76,7 +75,6 @@ export const en = {
     empty: 'No players yet. Create an account and start playing to get on the board!',
     rankHeader: 'Rank',
     playerHeader: 'Player',
-    scoreHeader: 'ME',
   },
 
   games: {
@@ -85,7 +83,6 @@ export const en = {
       backToHome: '← Back to home',
       backToWordsCta: 'Back to words',
       solvedSummary: (solved: number, total: number) => `${solved} / ${total} solved`,
-      totalEarnedLabel: (amount: number) => `${amount.toLocaleString()} ME earned`,
       practiceLabel: 'Practice · no points',
       startCta: 'Start',
       lowBalanceTitle: 'Not enough time',
@@ -95,8 +92,8 @@ export const en = {
       submitCta: 'Submit',
       correctFeedback: 'Correct!',
       correctArithmetic: (base: number, multiplier: number, total: number) =>
-        `${base} × ${multiplier} = ${total} ME`,
-      timedOutTitle: "Time's up",
+        `${base} × ${multiplier} = ${total}`,
+      timeUpPopupTitle: 'Time up!!',
       practiceResultTitle: 'Practice round',
     },
   },

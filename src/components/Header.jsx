@@ -58,7 +58,7 @@ export default function Header() {
           <>
             <span className="score-pill">
               <img src="/point.png" alt="" className="score-pill-icon" />
-              {animatedScore.toLocaleString()} {en.header.scoreUnit}
+              {animatedScore.toLocaleString()}
             </span>
             <span className={`time-pill ${depleted ? 'depleted' : ''}`}>
               <ClockIcon />

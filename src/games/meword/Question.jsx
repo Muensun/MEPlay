@@ -7,6 +7,7 @@ import { normalizeAnswer } from './normalize';
 import { sha256Hex } from './hash';
 
 const t = en.games.meword;
+const BG_COUNT = 4; // bg1.png .. bg4.png
 
 function capitalize(slug) {
   return slug.charAt(0).toUpperCase() + slug.slice(1);
@@ -29,17 +30,20 @@ function CountdownRing({ remainingSec, limitSec }) {
           strokeDashoffset={circumference * (1 - fraction)}
         />
       </svg>
-      <span className="meword-timer-digits">{remainingSec}</span>
+      <span className="meword-timer-digits">{Math.max(0, remainingSec)}</span>
     </div>
   );
 }
 
 export default function Question({ word, alreadySolved, onBack }) {
-  const { user, stats, spendTime, addScore, recordSession } = useAuth();
+  const { stats, spendTime, addScore, recordSession } = useAuth();
   const [state, dispatch] = useReducer(questionReducer, null);
   const [guess, setGuess] = useState('');
   const [shaking, setShaking] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  // Picked once per question attempt — Question remounts fresh every time
+  // a card is selected, so this naturally re-randomises per question.
+  const [bgImage] = useState(() => `/games/meword/bg${1 + Math.floor(Math.random() * BG_COUNT)}.png`);
   const inputRef = useRef(null);
   const questionStartRef = useRef(performance.now());
   const settledRef = useRef(false);
@@ -128,27 +132,16 @@ export default function Question({ word, alreadySolved, onBack }) {
 
   if (!state) return null;
 
-  if (state.status === 'correct' || state.status === 'timedOut') {
-    const correct = state.status === 'correct';
-    const base = correct && !alreadySolved
-      ? state.score / (MEWORD_STAR_MULTIPLIER[word.stars] ?? 1)
-      : 0;
+  if (state.status === 'correct') {
+    const base = !alreadySolved ? state.score / (MEWORD_STAR_MULTIPLIER[word.stars] ?? 1) : 0;
     return (
       <div className="page">
         <div className="result-banner win">
           <p>
-            <strong>
-              {correct ? (alreadySolved ? t.practiceResultTitle : t.correctFeedback) : t.timedOutTitle}
-            </strong>
+            <strong>{alreadySolved ? t.practiceResultTitle : t.correctFeedback}</strong>
           </p>
-          {correct && !alreadySolved && (
+          {!alreadySolved && (
             <p>{t.correctArithmetic(Math.round(base), MEWORD_STAR_MULTIPLIER[word.stars] ?? 1, state.score)}</p>
-          )}
-          {!correct && (
-            <>
-              <p className="meword-reveal-word">{word.answer}</p>
-              <p className="muted">{word.meaning}</p>
-            </>
           )}
           <button className="btn-primary" onClick={onBack} type="button">
             {t.backToWordsCta}
@@ -158,10 +151,11 @@ export default function Question({ word, alreadySolved, onBack }) {
     );
   }
 
+  const timedOut = state.status === 'timedOut';
   const remainingSec = MEWORD_LIMIT_SEC - state.elapsedSec;
 
   return (
-    <div className="page">
+    <div className="page meword-question-page" style={{ '--meword-bg': `url(${bgImage})` }}>
       <button className="btn-ghost" onClick={onBack} type="button">
         {t.backToWordsCta}
       </button>
@@ -177,11 +171,8 @@ export default function Question({ word, alreadySolved, onBack }) {
         <CountdownRing remainingSec={remainingSec} limitSec={MEWORD_LIMIT_SEC} />
       </div>
 
-      <div className="meword-images meword-image-wrap">
+      <div className="meword-images">
         <img src={word.image} alt="" className="meword-image-photo" />
-        <span className="meword-watermark" aria-hidden="true">
-          {Array.from({ length: 12 }, () => user.username).join('   ')}
-        </span>
       </div>
 
       <div className="meword-syllables" aria-label={`${word.syllables} syllables`}>
@@ -198,11 +189,25 @@ export default function Question({ word, alreadySolved, onBack }) {
           value={guess}
           onChange={(e) => setGuess(e.target.value)}
           placeholder={t.answerPlaceholder}
+          disabled={timedOut}
         />
-        <button type="submit" className="btn-primary" disabled={verifying}>
+        <button type="submit" className="btn-primary" disabled={verifying || timedOut}>
           {t.submitCta}
         </button>
       </form>
+
+      {timedOut && (
+        <div className="sheet-backdrop" onClick={onBack}>
+          <div className="sheet" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <p className="sheet-title meword-timeup-title">{t.timeUpPopupTitle}</p>
+            <div className="sheet-actions">
+              <button className="btn-primary" onClick={onBack} type="button">
+                {t.backToWordsCta}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

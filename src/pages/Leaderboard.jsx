@@ -23,7 +23,8 @@ export default function Leaderboard() {
               <img src={avatarUrlFor(u.avatarId)} alt="" className="leaderboard-avatar" />
               <span className="name">{u.username}</span>
               <span className="score">
-                {u.meScore.toLocaleString()} {en.leaderboard.scoreHeader}
+                <img src="/point.png" alt="" className="score-pill-icon" />
+                {u.meScore.toLocaleString()}
               </span>
             </li>
           ))}
