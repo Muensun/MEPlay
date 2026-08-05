@@ -586,18 +586,19 @@ main {
 
 .meword-images {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
   justify-content: center;
-  padding: 32px 16px;
+  padding: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
+  overflow: hidden;
 }
 
-.meword-image {
-  font-size: clamp(40px, 10vw, 64px);
-  line-height: 1;
+.meword-image-photo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
 }
 
 .difficulty-picker {

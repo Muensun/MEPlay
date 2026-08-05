@@ -1,0 +1,144 @@
+{
+  "gameId": "meword",
+  "version": 1,
+  "generatedAt": "2026-08-05T06:56:19.129Z",
+  "timeByStars": {
+    "1": 60,
+    "2": 55,
+    "3": 45,
+    "4": 40,
+    "5": 30
+  },
+  "words": [
+    {
+      "id": "MW0001",
+      "vocab": "mycorrhiza",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 4,
+      "stars": 4,
+      "meaning": "ความสัมพันธ์แบบพึ่งพาอาศัยกันระหว่างเชื้อรากลุ่มหนึ่งกับระบบรากของพืชชั้นสูง โดยพืชได้น้ำและแร่ธาตุ เช่น ฟอสฟอรัสจากเชื้อรา ส่วนเชื้อราได้น้ำตาลและสารอาหารจากพืช",
+      "image": "MW0001.png",
+      "accept": [
+        "mycorrhiza"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0002",
+      "vocab": "ตัดไม้ทำลายป่า",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 5,
+      "stars": 3,
+      "meaning": "การตัดหรือถางต้นไม้และพื้นที่ป่าธรรมชาติออกไปอย่างถาวร เพื่อเปลี่ยนสภาพพื้นที่ไปใช้ประโยชน์ในด้านอื่น เช่น การเกษตรกรรม การสร้างบ้านเรือน หรือการขยายเขตอุตสาหกรรม",
+      "image": "MW0002.png",
+      "accept": [
+        "ตัดไม้ทำลายป่า"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0003",
+      "vocab": "Carnivore",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "สิ่งมีชีวิตที่ได้รับพลังงานและสารอาหารจากการกินเนื้อเยื่อของสัตว์อื่นเป็นหลัก โดยการล่าหรือกินซาก",
+      "image": "MW0003.png",
+      "accept": [
+        "Carnivore"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0004",
+      "vocab": "บัญชีแดง",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "รายชื่อและข้อมูลที่บอกระดับความเสี่ยงต่อการสูญพันธุ์ ของสัตว์ พืช และจุลินทรีย์ทั่วโลก",
+      "image": "MW0004.png",
+      "accept": [
+        "บัญชีแดง"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0005",
+      "vocab": "พันธุกรรม",
+      "lang": "th",
+      "category": [
+        "environment",
+        "social"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "การถ่ายทอดลักษณะต่าง ๆ ของสิ่งมีชีวิตจากรุ่นหนึ่งไปยังรุ่นต่อไป",
+      "image": "MW0005.png",
+      "accept": [
+        "พันธุกรรม"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0006",
+      "vocab": "อพยพ",
+      "lang": "th",
+      "category": [
+        "environment",
+        "social"
+      ],
+      "syllables": 3,
+      "stars": 5,
+      "meaning": "การย้ายถิ่นฐานหรือการเคลื่อนย้ายผู้คน ครอบครัว หรือกลุ่มชน จากสถานที่หรือถิ่นที่อยู่เดิมไปยังอีกถิ่นหนึ่ง",
+      "image": "MW0006.png",
+      "accept": [
+        "อพยพ"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0007",
+      "vocab": "ผู้ล่า",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 2,
+      "stars": 1,
+      "meaning": "สิ่งมีชีวิตที่จับสิ่งมีชีวิตอื่นเป็นอาหาร",
+      "image": "MW0007.png",
+      "accept": [
+        "ผู้ล่า"
+      ],
+      "status": "ready"
+    },
+    {
+      "id": "MW0008",
+      "vocab": "Wind Turbine",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "เครื่องจักรที่ทำหน้าที่เปลี่ยนพลังงานลมให้เป็นพลังงานกลและพลังงานไฟฟ้า",
+      "image": "MW0008.png",
+      "accept": [
+        "Wind Turbine"
+      ],
+      "status": "ready"
+    }
+  ]
+}

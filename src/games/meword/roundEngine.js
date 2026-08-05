@@ -7,6 +7,10 @@
 // "correct" / "it was X" before the next question replaces it on screen —
 // without it, a synchronous advance-on-submit wipes the message the same
 // render it appears in.
+//
+// Each question carries its own `limitSec` (derived from the word's
+// curated star rating — see questions.js) rather than the round using one
+// flat limit for every question.
 
 export function scoreFor(elapsedSec, limitSec) {
   if (elapsedSec <= 5) return 100;
@@ -18,11 +22,16 @@ function normalize(str) {
   return String(str ?? '').trim().toLowerCase();
 }
 
-export function createInitialRoundState({ questions, limitSec, balanceSec }) {
+function isCorrectAnswer(value, question) {
+  const accepted = question.accept?.length ? question.accept : [question.answer];
+  const given = normalize(value);
+  return accepted.some((a) => normalize(a) === given);
+}
+
+export function createInitialRoundState({ questions, balanceSec }) {
   return {
     status: 'active', // 'active' | 'feedback' | 'finished' | 'outOfTime'
     questions,
-    limitSec,
     index: 0,
     scoreTotal: 0,
     correctCount: 0,
@@ -53,9 +62,9 @@ export function roundReducer(state, action) {
         return { ...state, balanceSec };
       }
 
+      const question = state.questions[state.index];
       const questionElapsedSec = state.questionElapsedSec + 1;
-      if (questionElapsedSec >= state.limitSec) {
-        const question = state.questions[state.index];
+      if (questionElapsedSec >= question.limitSec) {
         return {
           ...state,
           balanceSec,
@@ -70,9 +79,9 @@ export function roundReducer(state, action) {
     case 'SUBMIT': {
       if (state.status !== 'active') return state;
       const question = state.questions[state.index];
-      const correct = normalize(action.value) === normalize(question.answer);
+      const correct = isCorrectAnswer(action.value, question);
       const elapsedSec = action.elapsedMs / 1000;
-      const scoreEarned = correct ? scoreFor(elapsedSec, state.limitSec) : 0;
+      const scoreEarned = correct ? scoreFor(elapsedSec, question.limitSec) : 0;
       return {
         ...state,
         scoreTotal: state.scoreTotal + scoreEarned,

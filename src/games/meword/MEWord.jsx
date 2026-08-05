@@ -5,7 +5,7 @@ import { games } from '../../config/games';
 import { en } from '../../i18n/en';
 import { formatMMSS } from '../../lib/time';
 import { createInitialRoundState, roundReducer } from './roundEngine';
-import { pickRoundQuestions } from './questions';
+import { DIFFICULTY_STAR_RANGES, pickRoundQuestions } from './questions';
 
 const config = games.find((g) => g.id === 'meword');
 const MIN_BALANCE_TO_START = 60;
@@ -65,10 +65,8 @@ export default function MEWord() {
   }, [state?.status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function startRound() {
-    const limitSec = config.difficulties[difficulty];
     const roundState = createInitialRoundState({
-      questions: pickRoundQuestions(config.questionsPerRound),
-      limitSec,
+      questions: pickRoundQuestions(config.questionsPerRound, difficulty),
       balanceSec,
     });
     scoreCommittedRef.current = false;
@@ -108,7 +106,7 @@ export default function MEWord() {
             <div className="difficulty-picker">
               <p className="avatar-picker-label">{t.difficultyLabel}</p>
               <div className="difficulty-options">
-                {Object.keys(config.difficulties).map((key) => (
+                {Object.keys(DIFFICULTY_STAR_RANGES).map((key) => (
                   <button
                     key={key}
                     type="button"
@@ -168,15 +166,11 @@ export default function MEWord() {
     <div className="page">
       <div className="meword-hud">
         <span>{t.questionOfTotal(state.index + 1, state.questions.length)}</span>
-        <span className="time-pill">{formatMMSS(state.limitSec - state.questionElapsedSec)}</span>
+        <span className="time-pill">{formatMMSS(question.limitSec - state.questionElapsedSec)}</span>
       </div>
 
       <div className="meword-images">
-        {question.images.map((img, i) => (
-          <span key={i} className="meword-image">
-            {img}
-          </span>
-        ))}
+        <img src={question.image} alt="" className="meword-image-photo" />
       </div>
 
       <form onSubmit={handleSubmit} className="guess-form">

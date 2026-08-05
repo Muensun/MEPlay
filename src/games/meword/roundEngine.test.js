@@ -15,17 +15,18 @@ describe('scoreFor', () => {
   });
 });
 
-function makeQuestions(n) {
-  return Array.from({ length: n }, (_, i) => ({ answer: `word${i}`, images: ['🌍'] }));
+function makeQuestions(n, limitSec = 45) {
+  return Array.from({ length: n }, (_, i) => ({
+    answer: `word${i}`,
+    accept: [`word${i}`],
+    image: '/games/meword/x.png',
+    limitSec,
+  }));
 }
 
 describe('roundReducer', () => {
   it('commits the score earned so far when balance hits zero mid-question', () => {
-    let state = createInitialRoundState({
-      questions: makeQuestions(3),
-      limitSec: 45,
-      balanceSec: 2,
-    });
+    let state = createInitialRoundState({ questions: makeQuestions(3), balanceSec: 2 });
 
     state = roundReducer(state, { type: 'SUBMIT', value: 'word0', elapsedMs: 1000 });
     expect(state.scoreTotal).toBe(100);
@@ -46,11 +47,7 @@ describe('roundReducer', () => {
   });
 
   it('scores a wrong answer as zero, holds for feedback, then advances', () => {
-    let state = createInitialRoundState({
-      questions: makeQuestions(2),
-      limitSec: 45,
-      balanceSec: 600,
-    });
+    let state = createInitialRoundState({ questions: makeQuestions(2), balanceSec: 600 });
     state = roundReducer(state, { type: 'SUBMIT', value: 'nope', elapsedMs: 1000 });
     expect(state.scoreTotal).toBe(0);
     expect(state.correctCount).toBe(0);
@@ -68,12 +65,16 @@ describe('roundReducer', () => {
     expect(state.index).toBe(1);
   });
 
-  it('times out a question at the per-question limit, holds for feedback, then advances', () => {
-    let state = createInitialRoundState({
-      questions: makeQuestions(2),
-      limitSec: 3,
-      balanceSec: 600,
-    });
+  it('accepts any answer in the accept[] list, case-insensitively', () => {
+    const questions = [{ answer: 'Wind Turbine', accept: ['Wind Turbine'], limitSec: 45 }];
+    let state = createInitialRoundState({ questions, balanceSec: 600 });
+    state = roundReducer(state, { type: 'SUBMIT', value: 'wind turbine', elapsedMs: 1000 });
+    expect(state.correctCount).toBe(1);
+    expect(state.scoreTotal).toBe(100);
+  });
+
+  it('times out a question at its own per-question limit, holds for feedback, then advances', () => {
+    let state = createInitialRoundState({ questions: makeQuestions(2, 3), balanceSec: 600 });
     state = roundReducer(state, { type: 'TICK' }); // 1s
     state = roundReducer(state, { type: 'TICK' }); // 2s
     expect(state.status).toBe('active');
@@ -88,12 +89,26 @@ describe('roundReducer', () => {
     expect(state.index).toBe(1);
   });
 
+  it('gives each question its own time limit', () => {
+    const questions = [
+      { answer: 'a', accept: ['a'], limitSec: 2 },
+      { answer: 'b', accept: ['b'], limitSec: 5 },
+    ];
+    let state = createInitialRoundState({ questions, balanceSec: 600 });
+    state = roundReducer(state, { type: 'TICK' }); // 1s of Q1 (limit 2)
+    state = roundReducer(state, { type: 'TICK' }); // 2s -> Q1 times out
+    expect(state.status).toBe('feedback');
+    state = roundReducer(state, { type: 'ADVANCE' });
+    expect(state.index).toBe(1);
+
+    // Q2 has a 5s limit — 2 ticks should not time it out.
+    state = roundReducer(state, { type: 'TICK' });
+    state = roundReducer(state, { type: 'TICK' });
+    expect(state.status).toBe('active');
+  });
+
   it('finishes the round after feedback on the last question advances', () => {
-    let state = createInitialRoundState({
-      questions: makeQuestions(1),
-      limitSec: 45,
-      balanceSec: 600,
-    });
+    let state = createInitialRoundState({ questions: makeQuestions(1), balanceSec: 600 });
     state = roundReducer(state, { type: 'SUBMIT', value: 'word0', elapsedMs: 1000 });
     expect(state.status).toBe('feedback');
     state = roundReducer(state, { type: 'ADVANCE' });
@@ -101,11 +116,7 @@ describe('roundReducer', () => {
   });
 
   it('ignores SUBMIT/ADVANCE once the round is no longer active', () => {
-    let state = createInitialRoundState({
-      questions: makeQuestions(1),
-      limitSec: 45,
-      balanceSec: 600,
-    });
+    let state = createInitialRoundState({ questions: makeQuestions(1), balanceSec: 600 });
     state = roundReducer(state, { type: 'SUBMIT', value: 'word0', elapsedMs: 1000 });
     state = roundReducer(state, { type: 'ADVANCE' });
     expect(state.status).toBe('finished');
