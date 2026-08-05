@@ -36,7 +36,7 @@ export default function Home() {
         <h1>
           <img src="/nameapp.png" alt="MEPlay" className="hero-wordmark" />
         </h1>
-        <p>รวมเกมสนุกๆ จาก Mission Earth ไว้ในที่เดียว สะสมแต้ม แข่งอันดับกับเพื่อน</p>
+
         {!user && (
           <Link to="/login" className="btn-primary btn-lg">
             สร้างบัญชีเพื่อเริ่มเล่น
