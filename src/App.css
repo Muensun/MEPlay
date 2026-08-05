@@ -502,39 +502,6 @@ main {
   border-color: var(--primary);
 }
 
-.account-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.account-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  cursor: pointer;
-  font: inherit;
-  color: var(--text-h);
-}
-
-.account-option:hover {
-  border-color: var(--primary);
-}
-
-.account-option img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
 /* Leaderboard */
 .leaderboard-list {
   list-style: none;

@@ -1,37 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { AVATARS, avatarUrlFor } from '../assets/avatars';
+import { AVATARS } from '../assets/avatars';
 import { en } from '../i18n/en';
 import PillButton from '../components/PillButton';
 
 export default function Auth() {
-  const { users, createAccount, loginAs } = useAuth();
+  const { createAccount, login } = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState(users.length > 0 ? 'login' : 'signin');
+  const [mode, setMode] = useState('signin');
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [avatarId, setAvatarId] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  async function handleCreate(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setBusy(true);
-    // No real network call yet (local-only), but the loading state is
-    // wired for when account creation talks to a server.
-    await Promise.resolve();
-    const result = createAccount(username, avatarId);
-    setBusy(false);
-    if (result.ok) navigate('/');
-    else setError(result.error);
-  }
-
-  async function handleLogin(userId) {
-    setError('');
-    setBusy(true);
-    await Promise.resolve();
-    const result = loginAs(userId);
+    const result =
+      mode === 'signin' ? await createAccount(username, password, avatarId) : await login(username, password);
     setBusy(false);
     if (result.ok) navigate('/');
     else setError(result.error);
@@ -58,76 +47,62 @@ export default function Auth() {
           </button>
         </div>
 
-        {mode === 'signin' ? (
-          <form onSubmit={handleCreate}>
-            <h2 className="auth-heading">{en.auth.signInHeading}</h2>
-            <label>
-              {en.auth.usernameLabel}
-              <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder={en.auth.usernamePlaceholder}
-                required
-              />
-            </label>
+        <form onSubmit={handleSubmit}>
+          <h2 className="auth-heading">{mode === 'signin' ? en.auth.signInHeading : en.auth.loginHeading}</h2>
+          <label>
+            {en.auth.usernameLabel}
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={en.auth.usernamePlaceholder}
+              autoComplete="username"
+              required
+            />
+          </label>
+          <label>
+            {en.auth.passwordLabel}
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={en.auth.passwordPlaceholder}
+              autoComplete={mode === 'signin' ? 'new-password' : 'current-password'}
+              minLength={6}
+              required
+            />
+          </label>
 
-            <p className="avatar-picker-label">{en.auth.chooseAvatarLabel}</p>
-            <div className="avatar-picker">
-              {AVATARS.map((a) => (
-                <button
-                  key={a.id}
-                  type="button"
-                  className={`avatar-option ${avatarId === a.id ? 'selected' : ''}`}
-                  onClick={() => setAvatarId(a.id)}
-                  aria-pressed={avatarId === a.id}
-                >
-                  <img src={a.url} alt="" />
-                </button>
-              ))}
-            </div>
+          {mode === 'signin' && (
+            <>
+              <p className="avatar-picker-label">{en.auth.chooseAvatarLabel}</p>
+              <div className="avatar-picker">
+                {AVATARS.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    className={`avatar-option ${avatarId === a.id ? 'selected' : ''}`}
+                    onClick={() => setAvatarId(a.id)}
+                    aria-pressed={avatarId === a.id}
+                  >
+                    <img src={a.url} alt="" />
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
 
-            {error && <p className="error-text">{error}</p>}
+          {error && <p className="error-text">{error}</p>}
 
-            <PillButton variant="signin" type="submit" loading={busy} disabled={busy}>
-              {busy ? en.auth.creatingAccount : en.auth.createAccountCta}
-            </PillButton>
-          </form>
-        ) : (
-          <div>
-            <h2 className="auth-heading">{en.auth.loginHeading}</h2>
-            {users.length === 0 ? (
-              <>
-                <p className="muted">{en.auth.noAccountsYet}</p>
-                <PillButton variant="signin" onClick={() => setMode('signin')}>
-                  {en.auth.createInsteadCta}
-                </PillButton>
-              </>
-            ) : (
-              <>
-                <p className="avatar-picker-label">{en.auth.existingAccountsHeading}</p>
-                <ul className="account-list">
-                  {users.map((u) => (
-                    <li key={u.id}>
-                      <button
-                        type="button"
-                        className="account-option"
-                        onClick={() => handleLogin(u.id)}
-                        disabled={busy}
-                      >
-                        <img src={avatarUrlFor(u.avatarId)} alt="" />
-                        <span>{u.username}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {error && <p className="error-text">{error}</p>}
-                <PillButton variant="login" onClick={() => setMode('signin')} disabled={busy}>
-                  {en.auth.createInsteadCta}
-                </PillButton>
-              </>
-            )}
-          </div>
-        )}
+          <PillButton variant={mode === 'signin' ? 'signin' : 'login'} type="submit" loading={busy} disabled={busy}>
+            {mode === 'signin'
+              ? busy
+                ? en.auth.creatingAccount
+                : en.auth.createAccountCta
+              : busy
+                ? en.auth.loggingIn
+                : en.auth.loginCta}
+          </PillButton>
+        </form>
       </div>
     </div>
   );

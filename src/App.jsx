@@ -12,8 +12,14 @@ import MEWord from './games/meword/MEWord';
 import './App.css';
 
 function RequireAuth({ children }) {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/login" replace />;
+  const { signedIn, authReady } = useAuth();
+  // Firebase restores a saved session asynchronously — without this
+  // guard, a signed-in player gets bounced to /login for a flash before
+  // onAuthStateChanged fires once on load. Gated on `signedIn` (auth
+  // state only) rather than the fully profile-hydrated `user`, so a
+  // slower Firestore fetch right after doesn't trigger the same flash.
+  if (!authReady) return null;
+  return signedIn ? children : <Navigate to="/login" replace />;
 }
 
 export default function App() {

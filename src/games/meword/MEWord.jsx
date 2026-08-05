@@ -13,6 +13,11 @@ export default function MEWord() {
   const { user, sessions } = useAuth();
   const [view, setView] = useState({ screen: 'grid' }); // 'grid' | 'confirmPractice' | 'question'
 
+  // RequireAuth only guarantees a signed-in session, not that the
+  // Firestore profile doc has loaded yet — brief window right after
+  // sign-in where `user` is still null.
+  if (!user) return null;
+
   const { byWord } = progressForUser(sessions, user.id, 'meword');
 
   function handleSelectWord(wordId) {

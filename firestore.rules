@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Deploy: Firebase console → Firestore Database → Rules → paste this in,
+// or `firebase deploy --only firestore:rules` if you have the CLI set up.
+//
+// users/{uid}    — profile (username, avatarId). Public read: the
+//                  leaderboard and other players' avatars need it.
+// stats/{uid}    — meScore/timeSec. Public read: the leaderboard is a
+//                  cross-user ranking by definition. Only the owner
+//                  can ever write their own score/balance.
+// sessions/{id}  — one record per resolved question attempt (see
+//                  src/games/meword/progress.js). Private: only the
+//                  player who created it can read their own attempt
+//                  history (which includes their wrong guesses).
+//                  Append-only — no update/delete rule, so none is
+//                  allowed once written.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /stats/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
