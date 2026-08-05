@@ -1,13 +1,7 @@
 import { en } from '../i18n/en';
 
 // Registry of games shown on the home page. The shell reads this — nothing
-// about a game is hardcoded in components. Per-game max scores from the
-// upcoming spreadsheet get added here.
-//
-// meword's per-question time limit comes from each word's own curated
-// star rating (see src/games/meword/questions.js + wordbank.json), not a
-// flat seconds-per-question value — questionsPerRound and
-// maxScorePerQuestion still apply round-wide.
+// about a game is hardcoded in components.
 export const games = [
   {
     id: 'meword',
@@ -15,8 +9,15 @@ export const games = [
     description: en.games.meword.description,
     logo: '/games/meword.png',
     path: '/game/meword',
-    maxScorePerQuestion: 100,
-    questionsPerRound: 10,
     available: true,
   },
 ];
+
+// meword v2: word-grid flow (see meplay-prompt-meword-v2.md), no rounds.
+// Every word gets the same 30s clock regardless of star rating; the star
+// multiplier is what makes a 5★ worth chasing over a 1★. Tunable after
+// the first playtest — that's why these live here, not inline in the
+// scoring function.
+export const MEWORD_LIMIT_SEC = 30;
+export const MEWORD_MIN_BALANCE_SEC = 30;
+export const MEWORD_STAR_MULTIPLIER = { 1: 1.0, 2: 1.2, 3: 1.4, 4: 1.6, 5: 2.0 };

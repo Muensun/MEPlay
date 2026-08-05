@@ -4,7 +4,11 @@
 //
 // User        { id, username, avatarId, createdAt }
 // UserStats   { userId, meScore, timeSec, lastAccrualAt }
-// GameSession { id, userId, gameId, startedAt, endedAt, meEarned, secondsSpent, answered, correct }
+// GameSession { id, userId, gameId, wordId, startedAt, endedAt, elapsedMs,
+//                attempts, solved, meEarned, practiced }
+// (GameSession's extra fields are meword-specific for now — see
+// src/games/meword/progress.js, which derives solved/best-score state
+// from this history instead of storing it redundantly.)
 
 import { MAX_TIME_SEC } from './time';
 
@@ -13,7 +17,7 @@ const STATS_KEY = 'meplay_stats_v2';
 const SESSIONS_KEY = 'meplay_sessions_v2';
 const CURRENT_USER_KEY = 'meplay_current_user_v2';
 
-function read(key, fallback) {
+function read(key: string, fallback: unknown) {
   try {
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
@@ -22,7 +26,7 @@ function read(key, fallback) {
   }
 }
 
-function write(key, value) {
+function write(key: string, value: unknown) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
@@ -30,7 +34,7 @@ export function loadUsers() {
   return read(USERS_KEY, []);
 }
 
-export function saveUsers(users) {
+export function saveUsers(users: unknown) {
   write(USERS_KEY, users);
 }
 
@@ -38,7 +42,7 @@ export function loadAllStats() {
   return read(STATS_KEY, {}); // userId -> UserStats
 }
 
-export function saveAllStats(stats) {
+export function saveAllStats(stats: unknown) {
   write(STATS_KEY, stats);
 }
 
@@ -46,7 +50,7 @@ export function loadSessions() {
   return read(SESSIONS_KEY, []);
 }
 
-export function saveSessions(sessions) {
+export function saveSessions(sessions: unknown) {
   write(SESSIONS_KEY, sessions);
 }
 
@@ -54,15 +58,15 @@ export function loadCurrentUserId() {
   return localStorage.getItem(CURRENT_USER_KEY);
 }
 
-export function saveCurrentUserId(userId) {
+export function saveCurrentUserId(userId: string | null) {
   if (userId) localStorage.setItem(CURRENT_USER_KEY, userId);
   else localStorage.removeItem(CURRENT_USER_KEY);
 }
 
-export function makeId(prefix) {
+export function makeId(prefix: string) {
   return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export function newUserStats(userId, now = Date.now()) {
+export function newUserStats(userId: string, now = Date.now()) {
   return { userId, meScore: 0, timeSec: MAX_TIME_SEC, lastAccrualAt: now };
 }

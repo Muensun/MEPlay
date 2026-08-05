@@ -574,14 +574,201 @@ main {
   white-space: nowrap;
 }
 
-/* MEword game */
-.meword-hud {
+/* MEword game — word grid */
+.meword-grid-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin: 16px 0 20px;
+}
+
+.meword-grid-summary {
+  display: flex;
+  gap: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 12px;
+}
+
+.word-card {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  padding: 6px;
+}
+
+.word-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.word-card.solved {
+  background: var(--primary-bg);
+  border-color: var(--primary);
+}
+
+.word-card-stars {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--border);
+}
+
+.word-card-stars .star.filled {
+  color: var(--brand-gold);
+}
+
+.word-card-check {
+  font-size: 22px;
+  color: var(--brand-teal);
+  line-height: 1;
+}
+
+.word-card-score {
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 14px;
+}
+
+.word-card-practice {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* MEword game — question screen */
+.meword-question-hud {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
-  font-weight: 600;
+  gap: 12px;
+}
+
+.meword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.meword-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--border);
   color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.meword-timer {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.meword-timer svg {
+  transform: rotate(-90deg);
+}
+
+.meword-timer-track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 5;
+}
+
+.meword-timer-progress {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 900ms linear;
+}
+
+.meword-timer-digits {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-h);
+}
+
+.meword-image-wrap {
+  position: relative;
+}
+
+.meword-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  overflow: hidden;
+  color: rgba(4, 18, 24, 0.16);
+  font-size: 13px;
+  font-weight: 700;
+  transform: rotate(-20deg) scale(1.3);
+  pointer-events: none;
+  user-select: none;
+}
+
+.meword-syllables {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 18px 0;
+  font-size: 22px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+.meword-reveal-word {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0;
+}
+
+@keyframes meword-shake {
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  80% {
+    transform: translateX(4px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-8px);
+  }
+  40%,
+  60% {
+    transform: translateX(8px);
+  }
+}
+
+.guess-form.shake {
+  animation: meword-shake 400ms ease;
 }
 
 .meword-images {
@@ -599,38 +786,8 @@ main {
   height: auto;
   border-radius: 10px;
   display: block;
-}
-
-.difficulty-picker {
-  margin: 20px 0;
-}
-
-.difficulty-options {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.difficulty-options button {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.difficulty-options button.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--brand-navy);
-}
-
-.correct-text {
-  color: var(--brand-teal);
-  font-weight: 600;
+  max-height: 32vh;
+  object-fit: contain;
 }
 
 .guess-form {
@@ -748,6 +905,14 @@ main {
 @media (prefers-reduced-motion: reduce) {
   .splash-logo {
     animation: none;
+  }
+
+  .guess-form.shake {
+    animation: none;
+  }
+
+  .meword-timer-progress {
+    transition: none;
   }
 }
 

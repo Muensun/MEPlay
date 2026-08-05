@@ -6,6 +6,8 @@ import {
   saveUsers,
   loadAllStats,
   saveAllStats,
+  loadSessions,
+  saveSessions,
   loadCurrentUserId,
   saveCurrentUserId,
   makeId,
@@ -18,10 +20,12 @@ const ACCRUAL_POLL_MS = 30 * 1000;
 export function AuthProvider({ children }) {
   const [users, setUsers] = useState(loadUsers);
   const [allStats, setAllStats] = useState(loadAllStats);
+  const [sessions, setSessions] = useState(loadSessions);
   const [currentUserId, setCurrentUserId] = useState(loadCurrentUserId);
 
   useEffect(() => saveUsers(users), [users]);
   useEffect(() => saveAllStats(allStats), [allStats]);
+  useEffect(() => saveSessions(sessions), [sessions]);
   useEffect(() => saveCurrentUserId(currentUserId), [currentUserId]);
 
   // Accrue the active account's time balance on load, on focus, and every
@@ -106,16 +110,24 @@ export function AuthProvider({ children }) {
     });
   }
 
+  function recordSession(gameId, record) {
+    if (!currentUserId) return;
+    const session = { id: makeId('session'), userId: currentUserId, gameId, ...record };
+    setSessions((prev) => [...prev, session]);
+  }
+
   const value = {
     user,
     users,
     stats,
     allStats,
+    sessions,
     createAccount,
     loginAs,
     logout,
     addScore,
     spendTime,
+    recordSession,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
