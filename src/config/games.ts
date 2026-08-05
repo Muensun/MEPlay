@@ -11,7 +11,7 @@ import { en } from '../i18n/en';
 export const games = [
   {
     id: 'meword',
-    title: 'MEทำนายคำ', // stays Thai — brand name, do not translate
+    title: 'MEคำให้ทาย', // stays Thai — brand name, do not translate
     description: en.games.meword.description,
     logo: '/games/meword.png',
     path: '/game/meword',
