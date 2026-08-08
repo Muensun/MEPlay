@@ -32,7 +32,9 @@ export const MEWORD_LIMIT_SEC = 30;
 export const MEWORD_MIN_BALANCE_SEC = 30;
 export const MEWORD_STAR_MULTIPLIER = { 1: 1.0, 2: 1.2, 3: 1.4, 4: 1.6, 5: 2.0 };
 
-// Answers are typed by tapping letter tiles rather than a keyboard: this
-// many tiles show per question (the required letters plus random decoys
-// from the same alphabet), unless the answer itself needs more.
-export const MEWORD_LETTER_TILE_COUNT = 24;
+// Answers are typed by tapping letter tiles rather than a keyboard: the
+// tile grid always shows every letter actually needed to spell the
+// answer, plus this many random decoys from the same alphabet — so a
+// longer word gets a bigger (but proportionally no harder) grid rather
+// than being crammed into a fixed-size one.
+export const MEWORD_LETTER_DECOY_COUNT = 8;

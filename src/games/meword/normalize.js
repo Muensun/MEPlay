@@ -17,3 +17,19 @@ export function normalizeAnswer(str) {
     .replace(/\s+/g, '')
     .toLowerCase();
 }
+
+// Same cleanup as normalizeAnswer, minus the tone-mark strip. Used to
+// build the letter-tile picker's required letters — the game should
+// still make players spell tone marks correctly, since they're part of
+// the actual word. Verification stays lenient: normalizeAnswer runs on
+// the assembled guess afterwards regardless of whether the player's
+// tiles included tone marks, so this doesn't change what counts as
+// correct, only what the tile set requires the player to select.
+export function fullSpellingChars(str) {
+  return Array.from(
+    String(str ?? '')
+      .normalize('NFC')
+      .replace(/\s+/g, '')
+      .toLowerCase()
+  );
+}

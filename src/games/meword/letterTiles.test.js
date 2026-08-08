@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLetterTiles, isThaiCombiningMark } from './letterTiles';
-import { normalizeAnswer } from './normalize';
-import { MEWORD_LETTER_TILE_COUNT } from '../../config/games';
+import { fullSpellingChars, normalizeAnswer } from './normalize';
+import { MEWORD_LETTER_DECOY_COUNT } from '../../config/games';
 
 const DOTTED_CIRCLE = String.fromCodePoint(0x25cc);
 
@@ -12,16 +12,16 @@ function multiset(chars) {
 }
 
 describe('buildLetterTiles', () => {
-  it('pads an English answer up to the full tile count', () => {
+  it('sizes the grid to the required letters plus exactly the decoy count', () => {
     const { requiredLength, tiles } = buildLetterTiles('Carnivore', 'en');
-    expect(requiredLength).toBe(normalizeAnswer('Carnivore').length);
-    expect(tiles).toHaveLength(MEWORD_LETTER_TILE_COUNT);
+    expect(requiredLength).toBe(fullSpellingChars('Carnivore').length);
+    expect(tiles).toHaveLength(requiredLength + MEWORD_LETTER_DECOY_COUNT);
   });
 
-  it('includes every letter needed to spell the normalised answer, at least once each', () => {
+  it('includes every letter needed to spell the full answer, at least once each', () => {
     const answer = 'Carnivore';
     const { tiles } = buildLetterTiles(answer, 'en');
-    const need = multiset(normalizeAnswer(answer));
+    const need = multiset(fullSpellingChars(answer));
     const have = multiset(tiles.map((t) => t.char));
     for (const [char, count] of need) {
       expect(have.get(char) ?? 0).toBeGreaterThanOrEqual(count);
@@ -35,36 +35,42 @@ describe('buildLetterTiles', () => {
     }
   });
 
-  it('only uses Thai script decoys for Thai answers', () => {
+  it('only draws Thai script decoys from the pool, but keeps tone marks the word actually needs', () => {
     // Codepoint escape ranges rather than literal glyphs — Thai combining
     // marks don't render legibly on their own in source (see normalize.js).
     const THAI_BLOCK = new RegExp('[\\u0E00-\\u0E7F]');
-    const THAI_TONE_MARKS = new RegExp('[\\u0E48-\\u0E4B]');
-    const { tiles } = buildLetterTiles('ผู้ล่า', 'th');
+    const answer = 'ผู้ล่า'; // needs both mai tho (U+0E49) and mai ek (U+0E48)
+    const { tiles, requiredLength } = buildLetterTiles(answer, 'th');
     for (const { char } of tiles) {
       expect(char).toMatch(THAI_BLOCK);
-      // never a tone mark — normalizeAnswer strips those, so one could
-      // never be a required letter and would be a useless decoy
-      expect(char).not.toMatch(THAI_TONE_MARKS);
     }
+    // total tiles = every required letter (tone marks included) + decoys
+    expect(tiles).toHaveLength(requiredLength + MEWORD_LETTER_DECOY_COUNT);
   });
 
-  it('strips tone marks from the required letters, matching normalizeAnswer', () => {
-    const { requiredLength, tiles } = buildLetterTiles('ผู้ล่า', 'th');
-    expect(requiredLength).toBe(normalizeAnswer('ผู้ล่า').length);
-    const need = multiset(normalizeAnswer('ผู้ล่า'));
+  it('keeps tone marks in the required letters, unlike normalizeAnswer', () => {
+    // ผู้ล่า needs mai tho (U+0E49) and mai ek (U+0E48) to be spelled
+    // correctly — normalizeAnswer strips both for lenient hash matching,
+    // but the tile picker should still require (and offer) them.
+    const answer = 'ผู้ล่า';
+    const { requiredLength, tiles } = buildLetterTiles(answer, 'th');
+    expect(requiredLength).toBe(fullSpellingChars(answer).length);
+    expect(requiredLength).toBeGreaterThan(normalizeAnswer(answer).length);
+
+    const need = multiset(fullSpellingChars(answer));
     const have = multiset(tiles.map((t) => t.char));
     for (const [char, count] of need) {
       expect(have.get(char) ?? 0).toBeGreaterThanOrEqual(count);
     }
+    expect(have.get('้') ?? 0).toBeGreaterThanOrEqual(1); // mai tho
+    expect(have.get('่') ?? 0).toBeGreaterThanOrEqual(1); // mai ek
   });
 
-  it('grows past the tile count for an answer longer than it, without dropping letters', () => {
-    const longAnswer = 'a'.repeat(MEWORD_LETTER_TILE_COUNT + 5);
-    const { requiredLength, tiles } = buildLetterTiles(longAnswer, 'en');
-    expect(requiredLength).toBe(MEWORD_LETTER_TILE_COUNT + 5);
-    expect(tiles.length).toBe(MEWORD_LETTER_TILE_COUNT + 5);
-    expect(tiles.filter((t) => t.char === 'a').length).toBe(MEWORD_LETTER_TILE_COUNT + 5);
+  it('always adds exactly MEWORD_LETTER_DECOY_COUNT decoys, however long the word', () => {
+    const short = buildLetterTiles('cat', 'en');
+    const long = buildLetterTiles('mycorrhiza', 'en');
+    expect(short.tiles.length - short.requiredLength).toBe(MEWORD_LETTER_DECOY_COUNT);
+    expect(long.tiles.length - long.requiredLength).toBe(MEWORD_LETTER_DECOY_COUNT);
   });
 
   it('assigns each tile a unique id', () => {
@@ -75,8 +81,8 @@ describe('buildLetterTiles', () => {
 
   it('drops whitespace from multi-word answers, same as normalizeAnswer', () => {
     const { requiredLength } = buildLetterTiles('Wind Turbine', 'en');
-    expect(requiredLength).toBe(normalizeAnswer('Wind Turbine').length);
-    expect(normalizeAnswer('Wind Turbine')).not.toMatch(/\s/);
+    expect(requiredLength).toBe(fullSpellingChars('Wind Turbine').length);
+    expect(fullSpellingChars('Wind Turbine').join('')).not.toMatch(/\s/);
   });
 
   it('prefixes a dotted circle onto combining vowel signs so a lone tile is legible', () => {
@@ -88,6 +94,12 @@ describe('buildLetterTiles', () => {
     expect(saraU.displayChar).toBe(DOTTED_CIRCLE + 'ู');
   });
 
+  it('prefixes a dotted circle onto tone marks too', () => {
+    const { tiles } = buildLetterTiles('ผู้ล่า', 'th');
+    const maiTho = tiles.find((t) => t.char === '้');
+    expect(maiTho.displayChar).toBe(DOTTED_CIRCLE + '้');
+  });
+
   it('leaves displayChar untouched for non-combining characters', () => {
     const { tiles } = buildLetterTiles('cat', 'en');
     for (const tile of tiles) {
@@ -95,9 +107,10 @@ describe('buildLetterTiles', () => {
     }
   });
 
-  it('identifies the above/below Thai vowel signs as combining marks', () => {
-    // mai han-akat (above), sara i/ii/ue/uee (above), sara u/uu (below)
-    for (const code of [0x0e31, 0x0e34, 0x0e35, 0x0e36, 0x0e37, 0x0e38, 0x0e39]) {
+  it('identifies the above/below Thai vowel signs and tone marks as combining marks', () => {
+    // mai han-akat (above), sara i/ii/ue/uee (above), sara u/uu (below),
+    // and the four tone marks (all above)
+    for (const code of [0x0e31, 0x0e34, 0x0e35, 0x0e36, 0x0e37, 0x0e38, 0x0e39, 0x0e48, 0x0e49, 0x0e4a, 0x0e4b]) {
       expect(isThaiCombiningMark(String.fromCodePoint(code))).toBe(true);
     }
   });
