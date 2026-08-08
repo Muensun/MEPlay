@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { buildLetterTiles } from './letterTiles';
+import { buildLetterTiles, isThaiCombiningMark } from './letterTiles';
 import { normalizeAnswer } from './normalize';
 import { MEWORD_LETTER_TILE_COUNT } from '../../config/games';
+
+const DOTTED_CIRCLE = String.fromCodePoint(0x25cc);
 
 function multiset(chars) {
   const m = new Map();
@@ -75,5 +77,36 @@ describe('buildLetterTiles', () => {
     const { requiredLength } = buildLetterTiles('Wind Turbine', 'en');
     expect(requiredLength).toBe(normalizeAnswer('Wind Turbine').length);
     expect(normalizeAnswer('Wind Turbine')).not.toMatch(/\s/);
+  });
+
+  it('prefixes a dotted circle onto combining vowel signs so a lone tile is legible', () => {
+    // ผู้ล่า needs ู (sara u, U+0E39) — a combining mark that stacks below
+    // the preceding consonant and renders as a floating mark with nothing
+    // to attach to when it's alone on its own tile button.
+    const { tiles } = buildLetterTiles('ผู้ล่า', 'th');
+    const saraU = tiles.find((t) => t.char === 'ู');
+    expect(saraU.displayChar).toBe(DOTTED_CIRCLE + 'ู');
+  });
+
+  it('leaves displayChar untouched for non-combining characters', () => {
+    const { tiles } = buildLetterTiles('cat', 'en');
+    for (const tile of tiles) {
+      expect(tile.displayChar).toBe(tile.char);
+    }
+  });
+
+  it('identifies the above/below Thai vowel signs as combining marks', () => {
+    // mai han-akat (above), sara i/ii/ue/uee (above), sara u/uu (below)
+    for (const code of [0x0e31, 0x0e34, 0x0e35, 0x0e36, 0x0e37, 0x0e38, 0x0e39]) {
+      expect(isThaiCombiningMark(String.fromCodePoint(code))).toBe(true);
+    }
+  });
+
+  it('does not treat same-line vowels or consonants as combining marks', () => {
+    // สระอา (า) and สระอำ (ำ) sit on the baseline, not stacked, and render
+    // fine on their own — only the above/below signs need the dotted circle.
+    for (const code of [0x0e01, 0x0e30, 0x0e32, 0x0e33, 0x0e40]) {
+      expect(isThaiCombiningMark(String.fromCodePoint(code))).toBe(false);
+    }
   });
 });

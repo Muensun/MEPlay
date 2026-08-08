@@ -31,6 +31,26 @@ const THAI_CONSONANT_CODES = [
 const THAI_VOWEL_CODES = [0x0e30, 0x0e31, 0x0e32, 0x0e33, 0x0e34, 0x0e35, 0x0e36, 0x0e37, 0x0e38, 0x0e39, 0x0e40, 0x0e41, 0x0e42, 0x0e43, 0x0e44];
 const THAI_LETTERS = [...THAI_CONSONANT_CODES, ...THAI_VOWEL_CODES].map((code) => String.fromCodePoint(code)).join('');
 
+// Of those vowel signs, this subset are Unicode combining marks (general
+// category Mn) that stack above or below the letter before them — mai
+// han-akat and the four "sara" signs that sit on the vertical axis
+// (i, ii, ue, uee above; u, uu below). Shown on their own — one to a tile
+// button — they'd render as a floating mark with nothing to attach to,
+// so displayChar prefixes them with a dotted circle (U+25CC), the
+// standard placeholder base for showing an isolated combining character.
+// The plain `char` (no dotted circle) is what still gets compared against
+// the answer hash — this is display-only.
+const THAI_COMBINING_MARK_CODES = new Set([0x0e31, 0x0e34, 0x0e35, 0x0e36, 0x0e37, 0x0e38, 0x0e39]);
+const DOTTED_CIRCLE = String.fromCodePoint(0x25cc);
+
+export function isThaiCombiningMark(char) {
+  return THAI_COMBINING_MARK_CODES.has(char?.codePointAt(0));
+}
+
+function displayCharFor(char) {
+  return isThaiCombiningMark(char) ? DOTTED_CIRCLE + char : char;
+}
+
 function randomChar(pool) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
@@ -45,13 +65,17 @@ function shuffle(arr) {
 }
 
 // Returns { requiredLength, tiles }. `tiles` is the shuffled pool the
-// grid renders: { id, char }[], sized to MEWORD_LETTER_TILE_COUNT (or to
-// requiredLength if the answer itself needs more letters than that).
+// grid renders: { id, char, displayChar }[], sized to MEWORD_LETTER_TILE_COUNT
+// (or to requiredLength if the answer itself needs more letters than that).
 export function buildLetterTiles(answer, lang) {
   const requiredChars = Array.from(normalizeAnswer(answer));
   const pool = lang === 'th' ? THAI_LETTERS : ENGLISH_LETTERS;
   const decoyCount = Math.max(0, MEWORD_LETTER_TILE_COUNT - requiredChars.length);
   const decoys = Array.from({ length: decoyCount }, () => randomChar(pool));
-  const tiles = shuffle([...requiredChars, ...decoys]).map((char, id) => ({ id, char }));
+  const tiles = shuffle([...requiredChars, ...decoys]).map((char, id) => ({
+    id,
+    char,
+    displayChar: displayCharFor(char),
+  }));
   return { requiredLength: requiredChars.length, tiles };
 }

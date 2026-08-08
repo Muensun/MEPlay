@@ -14,6 +14,23 @@ function capitalize(slug) {
   return slug.charAt(0).toUpperCase() + slug.slice(1);
 }
 
+// Renders the letters picked so far as Unicode grapheme clusters rather
+// than one tile-per-slot: a Thai vowel sign that stacks above or below a
+// consonant only renders correctly when the two share a text node, which
+// a separate <span> per tapped tile would break regardless of any CSS.
+// Grouping here is display-only — verification still hashes the flat
+// per-tile character sequence untouched.
+function groupSelectedForDisplay(selected) {
+  const text = selected.map((tile) => tile.char).join('');
+  if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    return Array.from(segmenter.segment(text), (s) => s.segment);
+  }
+  // Older engines without Intl.Segmenter (pre-2024 Safari): falls back to
+  // one code point per box, same as before — not incorrect, just unstacked.
+  return Array.from(text);
+}
+
 function CountdownRing({ remainingSec, limitSec }) {
   const radius = 26;
   const circumference = 2 * Math.PI * radius;
@@ -216,10 +233,13 @@ export default function Question({ word, alreadySolved, onBack }) {
 
       <div className={`meword-tiles-wrap ${shaking ? 'shake' : ''}`}>
         <div className="meword-slots" aria-label={t.tilesInstructionLabel}>
-          {Array.from({ length: tileData.requiredLength }, (_, i) => (
-            <span key={i} className={`meword-slot ${selected[i] ? 'filled' : ''}`}>
-              {selected[i]?.char ?? ''}
+          {groupSelectedForDisplay(selected).map((cluster, i) => (
+            <span key={`filled-${i}`} className="meword-slot filled">
+              {cluster}
             </span>
+          ))}
+          {Array.from({ length: Math.max(0, tileData.requiredLength - selected.length) }, (_, i) => (
+            <span key={`empty-${i}`} className="meword-slot" />
           ))}
         </div>
 
@@ -232,7 +252,7 @@ export default function Question({ word, alreadySolved, onBack }) {
               disabled={usedTileIds.has(tile.id) || timedOut || verifying}
               onClick={() => pickTile(tile)}
             >
-              {tile.char}
+              {tile.displayChar}
             </button>
           ))}
         </div>
