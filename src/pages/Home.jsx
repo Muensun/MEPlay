@@ -33,15 +33,21 @@ export default function Home() {
                 ...(game.background ? { '--game-card-bg': `url(${game.background})` } : {}),
               }}
             >
-              <img src={game.logo} alt="" className="game-card-logo" />
-              <h3>{game.title}</h3>
-              <p>{game.description}</p>
-              {game.available ? (
-                <Link to={user ? game.path : '/login'} className="btn-primary">
-                  {user ? en.home.playCta : en.home.signInToPlayCta}
-                </Link>
+              {game.logo ? (
+                <img src={game.logo} alt={game.title} className="game-card-logo" />
               ) : (
-                <span className="badge">{en.home.comingSoon}</span>
+                <span className="game-card-logo game-card-logo-placeholder" aria-hidden="true">
+                  ?
+                </span>
+              )}
+              {game.available ? (
+                <Link
+                  to={user ? game.path : '/login'}
+                  className="game-card-link"
+                  aria-label={user ? `${en.home.playCta}: ${game.title}` : en.home.signInToPlayCta}
+                />
+              ) : (
+                <span className="badge game-card-badge">{en.home.comingSoon}</span>
               )}
             </div>
           ))}

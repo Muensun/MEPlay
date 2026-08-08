@@ -248,23 +248,30 @@ main {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
   margin-top: 16px;
 }
 
+@media (max-width: 480px) {
+  .game-grid {
+    gap: 8px;
+  }
+}
+
 .game-card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-top: 4px solid var(--accent, var(--brand-gold));
   border-radius: 16px;
-  padding: 24px;
-  text-align: center;
+  aspect-ratio: 1 / 1;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .game-card[style*='--game-card-bg'] {
@@ -285,9 +292,33 @@ main {
 }
 
 .game-card-logo {
-  width: 64px;
-  height: 64px;
+  width: 56%;
+  height: 56%;
   object-fit: contain;
+}
+
+.game-card-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: clamp(28px, 8vw, 40px);
+  font-weight: 700;
+}
+
+.game-card-link {
+  position: absolute;
+  inset: 0;
+}
+
+.game-card-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  padding: 3px 10px;
+  white-space: nowrap;
 }
 
 .badge {

@@ -12,6 +12,15 @@ export const games = [
     path: '/game/meword',
     available: true,
   },
+  // Placeholder cards only — fill out the 3x3 home grid until more games
+  // ship. No logo/background asset yet, so Home renders a generic icon
+  // in place of a logo for any entry missing one. Remove each entry as
+  // its real game replaces it.
+  ...Array.from({ length: 8 }, (_, i) => ({
+    id: `coming-soon-${i + 1}`,
+    title: en.home.comingSoon,
+    available: false,
+  })),
 ];
 
 // meword v2: word-grid flow (see meplay-prompt-meword-v2.md), no rounds.
