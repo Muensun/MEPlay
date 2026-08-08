@@ -93,8 +93,8 @@ export const en = {
         en: 'English',
         th: 'Thai',
       },
-      answerPlaceholder: 'Type your answer',
-      submitCta: 'Submit',
+      tilesInstructionLabel: 'Tap the letters to spell the word',
+      backspaceLabel: 'Backspace',
       correctFeedback: 'Correct!',
       correctArithmetic: (base: number, multiplier: number, total: number) =>
         `${base} × ${multiplier} = ${total}`,

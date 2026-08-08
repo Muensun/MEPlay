@@ -835,7 +835,7 @@ main {
   }
 }
 
-.guess-form.shake {
+.meword-tiles-wrap.shake {
   animation: meword-shake 400ms ease;
 }
 
@@ -858,21 +858,66 @@ main {
   object-fit: contain;
 }
 
-.guess-form {
+.meword-tiles-wrap {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   margin-top: 24px;
-  max-width: 320px;
+  max-width: 420px;
+  width: 100%;
 }
 
-.guess-form input {
-  flex: 1;
-  min-width: 0;
-  padding: 10px 12px;
+.meword-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.meword-slot {
+  width: 30px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid var(--border);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-h);
+}
+
+.meword-slot.filled {
+  border-bottom-color: var(--accent, var(--brand-gold));
+}
+
+.meword-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.meword-tile {
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-h);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.meword-tile:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.meword-backspace {
+  align-self: center;
 }
 
 .result-banner {
@@ -975,7 +1020,7 @@ main {
     animation: none;
   }
 
-  .guess-form.shake {
+  .meword-tiles-wrap.shake {
     animation: none;
   }
 
@@ -1004,7 +1049,11 @@ main {
     padding: 24px 16px 48px;
   }
 
-  .guess-form {
+  .meword-tiles-wrap {
     max-width: none;
+  }
+
+  .meword-tile-grid {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

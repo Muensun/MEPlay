@@ -31,3 +31,8 @@ export const games = [
 export const MEWORD_LIMIT_SEC = 30;
 export const MEWORD_MIN_BALANCE_SEC = 30;
 export const MEWORD_STAR_MULTIPLIER = { 1: 1.0, 2: 1.2, 3: 1.4, 4: 1.6, 5: 2.0 };
+
+// Answers are typed by tapping letter tiles rather than a keyboard: this
+// many tiles show per question (the required letters plus random decoys
+// from the same alphabet), unless the answer itself needs more.
+export const MEWORD_LETTER_TILE_COUNT = 24;

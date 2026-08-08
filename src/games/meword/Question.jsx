@@ -5,6 +5,7 @@ import { MEWORD_LIMIT_SEC, MEWORD_STAR_MULTIPLIER } from '../../config/games';
 import { createInitialQuestionState, questionReducer } from './questionEngine';
 import { normalizeAnswer } from './normalize';
 import { sha256Hex } from './hash';
+import { buildLetterTiles } from './letterTiles';
 
 const t = en.games.meword;
 const BG_COUNT = 4; // bg1.png .. bg4.png
@@ -38,13 +39,13 @@ function CountdownRing({ remainingSec, limitSec }) {
 export default function Question({ word, alreadySolved, onBack }) {
   const { stats, spendTime, addScore, recordSession } = useAuth();
   const [state, dispatch] = useReducer(questionReducer, null);
-  const [guess, setGuess] = useState('');
+  // Picked once per question attempt — Question remounts fresh every time
+  // a card is selected, so both naturally re-randomise per question.
+  const [bgImage] = useState(() => `/games/meword/bg${1 + Math.floor(Math.random() * BG_COUNT)}.png`);
+  const [tileData] = useState(() => buildLetterTiles(word.answer, word.lang));
+  const [selected, setSelected] = useState([]); // ordered tile picks: { id, char }[]
   const [shaking, setShaking] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  // Picked once per question attempt — Question remounts fresh every time
-  // a card is selected, so this naturally re-randomises per question.
-  const [bgImage] = useState(() => `/games/meword/bg${1 + Math.floor(Math.random() * BG_COUNT)}.png`);
-  const inputRef = useRef(null);
   const questionStartRef = useRef(performance.now());
   const settledRef = useRef(false);
   const startedAtRef = useRef(Date.now());
@@ -64,10 +65,6 @@ export default function Question({ word, alreadySolved, onBack }) {
     settledRef.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [word.id]);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   // Re-triggerable shake: clear the class shortly after so the next
   // wrong answer restarts the animation instead of no-op'ing on an
@@ -111,23 +108,50 @@ export default function Question({ word, alreadySolved, onBack }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state?.status]);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!state || state.status !== 'active' || !guess.trim() || verifying) return;
-    setVerifying(true);
-    const normalized = normalizeAnswer(guess);
-    const hash = await sha256Hex(normalized);
-    setVerifying(false);
-    if (!state || state.status !== 'active') return; // resolved while hashing (e.g. timeout)
+  // Auto-verifies once the player has filled every slot — there's no
+  // separate submit step with tiles. Reruns on selection changes only,
+  // gated so a resolved question (correct/timedOut arriving mid-check)
+  // doesn't apply a stale result.
+  useEffect(() => {
+    if (!state || state.status !== 'active') return undefined;
+    if (selected.length !== tileData.requiredLength) return undefined;
+    let cancelled = false;
 
-    if (word.answerHashes.includes(hash)) {
-      const elapsedSec = (performance.now() - questionStartRef.current) / 1000;
-      dispatch({ type: 'CORRECT', elapsedSec });
-    } else {
-      dispatch({ type: 'WRONG', value: guess });
-      setShaking(true);
-      inputRef.current?.select();
-    }
+    (async () => {
+      setVerifying(true);
+      const normalized = normalizeAnswer(selected.map((tile) => tile.char).join(''));
+      const hash = await sha256Hex(normalized);
+      if (cancelled) return;
+      setVerifying(false);
+      if (!state || state.status !== 'active') return; // resolved while hashing (e.g. timeout)
+
+      if (word.answerHashes.includes(hash)) {
+        const elapsedSec = (performance.now() - questionStartRef.current) / 1000;
+        dispatch({ type: 'CORRECT', elapsedSec });
+      } else {
+        dispatch({ type: 'WRONG', value: normalized });
+        setShaking(true);
+        setSelected([]);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, state?.status]);
+
+  const usedTileIds = new Set(selected.map((tile) => tile.id));
+
+  function pickTile(tile) {
+    if (!state || state.status !== 'active' || verifying) return;
+    if (usedTileIds.has(tile.id) || selected.length >= tileData.requiredLength) return;
+    setSelected((prev) => [...prev, tile]);
+  }
+
+  function backspace() {
+    if (verifying) return;
+    setSelected((prev) => prev.slice(0, -1));
   }
 
   if (!state) return null;
@@ -190,18 +214,38 @@ export default function Question({ word, alreadySolved, onBack }) {
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className={`guess-form ${shaking ? 'shake' : ''}`}>
-        <input
-          ref={inputRef}
-          value={guess}
-          onChange={(e) => setGuess(e.target.value)}
-          placeholder={t.answerPlaceholder}
-          disabled={timedOut}
-        />
-        <button type="submit" className="btn-primary" disabled={verifying || timedOut}>
-          {t.submitCta}
+      <div className={`meword-tiles-wrap ${shaking ? 'shake' : ''}`}>
+        <div className="meword-slots" aria-label={t.tilesInstructionLabel}>
+          {Array.from({ length: tileData.requiredLength }, (_, i) => (
+            <span key={i} className={`meword-slot ${selected[i] ? 'filled' : ''}`}>
+              {selected[i]?.char ?? ''}
+            </span>
+          ))}
+        </div>
+
+        <div className="meword-tile-grid">
+          {tileData.tiles.map((tile) => (
+            <button
+              key={tile.id}
+              type="button"
+              className="meword-tile"
+              disabled={usedTileIds.has(tile.id) || timedOut || verifying}
+              onClick={() => pickTile(tile)}
+            >
+              {tile.char}
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="btn-ghost meword-backspace"
+          onClick={backspace}
+          disabled={selected.length === 0 || timedOut || verifying}
+        >
+          {t.backspaceLabel}
         </button>
-      </form>
+      </div>
 
       {timedOut && (
         <div className="sheet-backdrop" onClick={onBack}>
