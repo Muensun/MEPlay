@@ -267,6 +267,19 @@ main {
   gap: 8px;
 }
 
+.game-card[style*='--game-card-bg'] {
+  background-image: linear-gradient(rgba(250, 249, 245, 0.82), rgba(250, 249, 245, 0.82)), var(--game-card-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+  .game-card[style*='--game-card-bg'] {
+    background-image: linear-gradient(rgba(12, 18, 21, 0.82), rgba(12, 18, 21, 0.82)), var(--game-card-bg);
+  }
+}
+
 .game-card.disabled {
   opacity: 0.55;
 }

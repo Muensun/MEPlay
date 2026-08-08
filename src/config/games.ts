@@ -8,6 +8,7 @@ export const games = [
     title: 'MEคำให้ทาย', // stays Thai — brand name, do not translate
     description: en.games.meword.description,
     logo: '/games/meword.png',
+    background: '/games/BG_MW.png',
     path: '/game/meword',
     available: true,
   },

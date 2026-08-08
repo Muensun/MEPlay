@@ -28,7 +28,10 @@ export default function Home() {
             <div
               key={game.id}
               className={`game-card ${!game.available ? 'disabled' : ''}`}
-              style={{ '--accent': colorForIndex(i + 1) }}
+              style={{
+                '--accent': colorForIndex(i + 1),
+                ...(game.background ? { '--game-card-bg': `url(${game.background})` } : {}),
+              }}
             >
               <img src={game.logo} alt="" className="game-card-logo" />
               <h3>{game.title}</h3>
