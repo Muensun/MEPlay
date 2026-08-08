@@ -725,6 +725,24 @@ main {
      typical phone viewport without scrolling. */
   padding-top: 8px;
   padding-bottom: 10px;
+  /* Fills exactly the viewport space left under the sticky header (its
+     real rendered height, published by Header.jsx as this variable — not
+     a guessed constant, since the header wraps differently per device)
+     and centers the whole question block inside it, both axes. dvh
+     rather than vh so mobile browsers' collapsing address bar doesn't
+     leave a sliver that forces a scroll. */
+  box-sizing: border-box;
+  min-height: calc(100dvh - var(--site-header-height, 64px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items left at the flex default (stretch) so the hud/images/etc
+     keep filling the full width like they did in normal block flow —
+     only the back button opts out below, back to its natural pill size. */
+}
+
+.meword-question-page > .btn-ghost {
+  align-self: flex-start;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -868,7 +886,7 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-top: 6px;
+  margin: 6px auto 0;
   max-width: 320px;
   width: 100%;
 }

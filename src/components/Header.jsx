@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { avatarUrlFor } from '../assets/avatars';
@@ -23,8 +23,28 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingSignOut, setConfirmingSignOut] = useState(false);
   const [, forceTick] = useState(0);
+  const headerRef = useRef(null);
 
   const animatedScore = useAnimatedNumber(stats?.meScore ?? 0);
+
+  // Publishes the header's real rendered height as a CSS variable so pages
+  // that need to fit "the rest of the viewport" exactly (e.g. the MEword
+  // question screen) can size against it. A ResizeObserver rather than a
+  // window resize listener, because the header's own height can change
+  // independent of the viewport — it wraps to a second row on narrow
+  // screens, and a long username or the "Out of time" state can widen the
+  // user-info cluster enough to wrap on its own.
+  useLayoutEffect(() => {
+    const el = headerRef.current;
+    if (!el) return undefined;
+    const setVar = () => {
+      document.documentElement.style.setProperty('--site-header-height', `${el.offsetHeight}px`);
+    };
+    setVar();
+    const observer = new ResizeObserver(setVar);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Re-render once a second so the "next refill" countdown reads live,
   // without writing to storage on every tick.
@@ -44,7 +64,7 @@ export default function Header() {
   const depleted = stats && stats.timeSec <= 0;
 
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <Link to="/" className="brand">
         <img src="/logo.png" alt="" className="brand-logo" />
         <img src="/nameapp.png" alt={en.home.heroWordmarkAlt} className="brand-wordmark" />
