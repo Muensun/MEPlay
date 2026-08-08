@@ -720,6 +720,11 @@ main {
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
+  /* Tighter than the default .page padding — this screen packs a lot in
+     (image, chips, timer, syllables, tile grid) and needs to fit a
+     typical phone viewport without scrolling. */
+  padding-top: 8px;
+  padding-bottom: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -732,7 +737,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  margin: 8px 0;
   gap: 12px;
 }
 
@@ -753,8 +758,8 @@ main {
 
 .meword-timer {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
 }
 
@@ -783,16 +788,16 @@ main {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 12px;
   color: var(--text-h);
 }
 
 .meword-syllables {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
-  margin: 18px 0;
-  font-size: 22px;
+  margin: 4px 0;
+  font-size: 15px;
   color: var(--muted);
   letter-spacing: 2px;
 }
@@ -802,7 +807,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   font-size: 13px;
   font-weight: 600;
   color: var(--muted);
@@ -842,7 +847,7 @@ main {
 .meword-images {
   display: flex;
   justify-content: center;
-  padding: 12px;
+  padding: 6px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -854,7 +859,7 @@ main {
   height: auto;
   border-radius: 10px;
   display: block;
-  max-height: 32vh;
+  max-height: min(32vh, 84px);
   object-fit: contain;
 }
 
@@ -862,27 +867,27 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-top: 24px;
-  max-width: 420px;
+  gap: 6px;
+  margin-top: 6px;
+  max-width: 320px;
   width: 100%;
 }
 
 .meword-slots {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
   justify-content: center;
 }
 
 .meword-slot {
-  width: 30px;
-  height: 34px;
+  width: 18px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 2px solid var(--border);
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-h);
@@ -894,18 +899,18 @@ main {
 
 .meword-tile-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 5px;
   width: 100%;
 }
 
 .meword-tile {
   aspect-ratio: 1 / 1;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-h);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
@@ -918,6 +923,8 @@ main {
 
 .meword-backspace {
   align-self: center;
+  padding: 3px 12px;
+  font-size: 12px;
 }
 
 .result-banner {
@@ -1050,10 +1057,6 @@ main {
   }
 
   .meword-tiles-wrap {
-    max-width: none;
-  }
-
-  .meword-tile-grid {
-    grid-template-columns: repeat(5, 1fr);
+    max-width: 280px;
   }
 }

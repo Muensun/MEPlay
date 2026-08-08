@@ -20,7 +20,7 @@ function CountdownRing({ remainingSec, limitSec }) {
   const fraction = Math.max(0, remainingSec / limitSec);
   return (
     <div className="meword-timer">
-      <svg viewBox="0 0 60 60" width="60" height="60">
+      <svg viewBox="0 0 60 60" width="100%" height="100%">
         <circle cx="30" cy="30" r={radius} className="meword-timer-track" />
         <circle
           cx="30"
