@@ -50,9 +50,7 @@ export default function WordCard({ index, stars, lang, syllables, solved, bestSc
           className="word-card-lang"
         />
         <span className="word-card-syllables" aria-label={`${syllables} syllables`}>
-          {Array.from({ length: syllables }, (_, i) => (
-            <span key={i} className="word-card-syllable-dot" />
-          ))}
+          ×{syllables}
         </span>
       </span>
       {solved && <span className="word-card-practice">{en.games.meword.practiceLabel}</span>}

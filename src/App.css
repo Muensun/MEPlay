@@ -680,24 +680,36 @@ main {
   border: 1px solid var(--border);
   cursor: pointer;
   padding: 6px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), url('/games/meword/BG_card.png');
+  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('/games/meword/BG_card.png');
   background-size: cover;
   background-position: center;
 }
 
-.word-card.solved {
-  border-color: var(--primary);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), url('/games/meword/BG_done.png');
-}
-
 @media (prefers-color-scheme: dark) {
   .word-card {
-    background-image: linear-gradient(rgba(20, 29, 33, 0.82), rgba(20, 29, 33, 0.82)), url('/games/meword/BG_card.png');
+    background-image: linear-gradient(rgba(20, 29, 33, 0.55), rgba(20, 29, 33, 0.55)), url('/games/meword/BG_card.png');
   }
+}
 
-  .word-card.solved {
-    background-image: linear-gradient(rgba(20, 29, 33, 0.82), rgba(20, 29, 33, 0.82)), url('/games/meword/BG_done.png');
-  }
+/* BG_done.png is a fixed dark-navy confetti graphic — it doesn't need a
+   light/dark-mode variant like BG_card.png does, and the foreground text
+   is hardcoded to light colors below rather than the usual theme
+   variables, since this background stays dark regardless of site theme. */
+.word-card.solved {
+  border-color: var(--primary);
+  background-image: url('/games/meword/BG_done.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.word-card.solved .word-card-index,
+.word-card.solved .word-card-syllables,
+.word-card.solved .word-card-practice {
+  color: rgba(244, 241, 232, 0.85);
+}
+
+.word-card.solved .word-card-score {
+  color: #f0b25c;
 }
 
 .word-card:disabled {
@@ -716,12 +728,12 @@ main {
 
 .word-card-stars {
   display: flex;
-  gap: 1px;
+  gap: 2px;
 }
 
 .word-card-stars .star {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   opacity: 0.25;
   filter: grayscale(1);
 }
@@ -734,30 +746,21 @@ main {
 .word-card-meta {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .word-card-lang {
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .word-card-syllables {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  max-width: 32px;
-}
-
-.word-card-syllable-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--muted);
-  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
 }
 
 .word-card-check {
