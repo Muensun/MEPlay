@@ -32,9 +32,6 @@ export default function WordCard({ index, stars, lang, syllables, solved, bestSc
       onClick={onClick}
       disabled={disabled}
     >
-      {!solved && (
-        <img src="/games/meword.png" alt="" className="word-card-watermark" aria-hidden="true" />
-      )}
       <span className="word-card-index">{index}</span>
       {solved ? (
         <>
