@@ -123,6 +123,453 @@
       "answerHashes": [
         "ed922bc1a22a2fbb33d9ac3484f1138e50a45dc8cdf1d346be7b45340e611fd0"
       ]
+    },
+    {
+      "id": "MW0009",
+      "answer": "เกษตรฟื้นฟู",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 4,
+      "stars": 2,
+      "meaning": "ระบบการทำเกษตรที่มุ่งฟื้นฟูความอุดมสมบูรณ์ของดิน เพิ่มความหลากหลายทางชีวภาพ และลดการใช้สารเคมี เพื่อสร้างความยั่งยืนให้กับระบบนิเวศในระยะยาว",
+      "image": "/games/meword/MW0009.png",
+      "answerHashes": [
+        "e2dcb86f6d58eb15ee1a57050e1cc52023ef2c68e5fbc141249994e831a1708d"
+      ]
+    },
+    {
+      "id": "MW0010",
+      "answer": "Green Finance",
+      "lang": "en",
+      "category": [
+        "environment",
+        "economy"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "แนวทางการจัดสรรเงินทุน การลงทุน และบริการทางการเงินที่มุ่งสนับสนุนโครงการหรือกิจกรรมซึ่งเป็นมิตรต่อสิ่งแวดล้อม",
+      "image": "/games/meword/MW0010.png",
+      "answerHashes": [
+        "801aa75a200c1baaf9c9ae5a2ce3b1a7616666ec1a68425e114fb6736e3850ce"
+      ]
+    },
+    {
+      "id": "MW0011",
+      "answer": "บึงประดิษฐ์",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 4,
+      "meaning": "ระบบบำบัดน้ำเสียที่จำลองและอาศัยกระบวนการทางธรรมชาติ โดยการสร้างบ่อตื้นๆ ปลูกพืชน้ำเพื่อกรอง ดัก และย่อยสลายสารมลพิษในน้ำเสีย",
+      "image": "/games/meword/MW0011.png",
+      "answerHashes": [
+        "e2c9e612534a7901a9674d8e76e732ad0ff9060efd1dd95cdfae6527100caab5"
+      ]
+    },
+    {
+      "id": "MW0012",
+      "answer": "Supply Chain",
+      "lang": "en",
+      "category": [
+        "environment",
+        "social"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "เครือข่ายความร่วมมือของกระบวนการทั้งหมดที่เกี่ยวข้อง ตั้งแต่การจัดหาวัตถุดิบ การผลิต การจัดเก็บสินค้า การกระจายสินค้า จนถึงการส่งมอบสินค้าหรือบริการถึงมือผู้บริโภค",
+      "image": "/games/meword/MW0012.png",
+      "answerHashes": [
+        "cfdd6b540665c823c72be1767e450dba467f1bdc80a38ce3beef5fbfb514ad5b"
+      ]
+    },
+    {
+      "id": "MW0013",
+      "answer": "Mindfulness",
+      "lang": "en",
+      "category": [
+        "wellness"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "การมีสติหรือความระลึกรู้ตัวอยู่กับปัจจุบัน เป็นการฝึกจิตใจให้จดจ่ออยู่กับสิ่งที่เกิดขึ้นในวินาทีนั้น โดยการสังเกตความรู้สึก ความคิด และร่างกายของตนเองอย่างเข้าใจ",
+      "image": "/games/meword/MW0013.png",
+      "answerHashes": [
+        "73aad88fc84837914ff4faa940de21154d969cbad1aee5e588582265219532ff"
+      ]
+    },
+    {
+      "id": "MW0014",
+      "answer": "แก้วส่วนตัว",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "ภาชนะใส่น้ำหรือเครื่องดื่มส่วนบุคคล เช่น แก้วเก็บความเย็น กระบอกน้ำ หรือแก้วทัมเบลอร์ ที่ผู้ใช้นำติดตัวมาเองเพื่อใช้ใส่เครื่องดื่มส่วนตัว ช่วยลดขยะพลาสติก",
+      "image": "/games/meword/MW0014.png",
+      "answerHashes": [
+        "32e7b0b7b63fd406826cbf1ffa97df7da89197552a32a08352cf81ed708af28a"
+      ]
+    },
+    {
+      "id": "MW0015",
+      "answer": "น้ำป่าไหลหลาก",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 4,
+      "stars": 2,
+      "meaning": "ปรากฏการณ์ภัยธรรมชาติที่กระแสน้ำจำนวนมากไหลบ่าจากพื้นที่สูง ภูเขา หรือต้นน้ำลำธารลงสู่พื้นที่ราบลุ่มต่ำด้านล่างอย่างรวดเร็วและรุนแรง",
+      "image": "/games/meword/MW0015.png",
+      "answerHashes": [
+        "8eb186a5205d90fdf465a267ea806234a95898a658a1325554b086cde72bdf81"
+      ]
+    },
+    {
+      "id": "MW0016",
+      "answer": "ป่าชุมชน",
+      "lang": "th",
+      "category": [
+        "environment",
+        "social"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "พื้นที่ป่าไม้ที่คนในท้องถิ่นและชุมชนร่วมมือกับภาครัฐช่วยกันดูแล รักษา ฟื้นฟู และใช้ประโยชน์จากธรรมชาติร่วมกันอย่างสมดุล",
+      "image": "/games/meword/MW0016.png",
+      "answerHashes": [
+        "ead8e0142266b106c98f41bfcef0bd787eb7a06a0eeb04e3c80553239d4a5154"
+      ]
+    },
+    {
+      "id": "MW0017",
+      "answer": "Local Food",
+      "lang": "en",
+      "category": [
+        "environment",
+        "economy"
+      ],
+      "syllables": 3,
+      "stars": 4,
+      "meaning": "อาหารและเครื่องดื่มที่ปรุงจากวัตถุดิบซึ่งหาได้ในพื้นที่นั้น ๆ โดยมักมีระยะทางการขนส่งสั้น ไม่เกิน 100 ไมล์หรือประมาณ 160 กิโลเมตร อาหารประเภทนี้สะท้อนถึงวิถีชีวิต วัฒนธรรม และภูมิปัญญาที่สืบทอดกันมา",
+      "image": "/games/meword/MW0017.png",
+      "answerHashes": [
+        "af4b6aa9d71b101495711fd1962d82a706f97238f1bcbf9e346d7dcb605c8ab8"
+      ]
+    },
+    {
+      "id": "MW0018",
+      "answer": "Active Learning",
+      "lang": "en",
+      "category": [
+        "education"
+      ],
+      "syllables": 4,
+      "stars": 5,
+      "meaning": "กระบวนการจัดการเรียนการสอนที่เน้นให้ผู้เรียนมีส่วนร่วมและลงมือปฏิบัติจริง",
+      "image": "/games/meword/MW0018.png",
+      "answerHashes": [
+        "38168be893503f85a1ce83495b7fb8c7aa6f53a6ae1ac7163d08af075c82240d"
+      ]
+    },
+    {
+      "id": "MW0019",
+      "answer": "สูญพันธุ์",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 2,
+      "stars": 3,
+      "meaning": "การสิ้นสุดการดำรงอยู่ของสิ่งมีชีวิตหรือสายพันธุ์ใดสายพันธุ์หนึ่ง",
+      "image": "/games/meword/MW0019.png",
+      "answerHashes": [
+        "46295f3010b2a601867e53325cdc04bfa2445809780753eed7eff25da8820ca0"
+      ]
+    },
+    {
+      "id": "MW0020",
+      "answer": "ปะการัง",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "สัตว์ทะเลไม่มีกระดูกสันหลังที่ตัวเล็กมาก ที่กำลังได้รับผลกระทบจากภาวะโลกร้อน เพราะเมื่อน้ำทะเลมีอุณหภูมิสูงขึ้นจะทำให้เกิดปรากฏการณ์ปะการังฟอกขาว",
+      "image": "/games/meword/MW0020.png",
+      "answerHashes": [
+        "30002936ce5edafb616d3c525b20ba20fa858c209cafa120e18aa0f9bb39b4f4"
+      ]
+    },
+    {
+      "id": "MW0021",
+      "answer": "ธารน้ำแข็ง",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "ก้อนน้ำแข็งขนาดใหญ่ที่เกิดจากการสะสมตัวของหิมะทับถมกันหนาหลายปีจนอัดแน่นกลายเป็นน้ำแข็ง และเคลื่อนตัวลงมาตามลาดเขาหรือหุบเขาอย่างช้าๆ",
+      "image": "/games/meword/MW0021.png",
+      "answerHashes": [
+        "efd6f0c9cfc4224cb054e30c9a6d11eed51f6b801e6fb0a48483d1dee4579f98"
+      ]
+    },
+    {
+      "id": "MW0022",
+      "answer": "Food Mile",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 2,
+      "stars": 4,
+      "meaning": "ระยะทางที่อาหารเดินทางจากแหล่งผลิตหรือฟาร์ม จนมาถึงมือผู้บริโภค ยิ่งอาหารเดินทางไกลมากเท่าไหร่ ก็ยิ่งใช้พลังงานในการขนส่งมากเท่านั้น",
+      "image": "/games/meword/MW0022.png",
+      "answerHashes": [
+        "9b90664eef31f38ef0fb4ff8310b0063db8a56cbf15a443c5388d43685e5c612"
+      ]
+    },
+    {
+      "id": "MW0023",
+      "answer": "Methane",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 2,
+      "stars": 2,
+      "meaning": "ก๊าซเรือนกระจก ซึ่งมีฤทธิ์รุนแรงในการกักเก็บความร้อนในชั้นบรรยากาศมากกว่าก๊าซคาร์บอนไดออกไซด์",
+      "image": "/games/meword/MW0023.png",
+      "answerHashes": [
+        "2d5f5a8dc4bbee0af82aee1c86024b91773b21af1c30f383f24e4f89171d347b"
+      ]
+    },
+    {
+      "id": "MW0024",
+      "answer": "Mindset",
+      "lang": "en",
+      "category": [
+        "social",
+        "education"
+      ],
+      "syllables": 2,
+      "stars": 3,
+      "meaning": "กรอบความคิดหรือความเชื่อที่ส่งผลต่อพฤติกรรม มันคือวิธีคิด มุมมอง และความรู้สึกที่บุคคลมีต่อสิ่งรอบตัว",
+      "image": "/games/meword/MW0024.png",
+      "answerHashes": [
+        "43ceba0faa50b1cabfa127ef35e443f6ed7848b10cdeef509606e40ce0afabdd"
+      ]
+    },
+    {
+      "id": "MW0025",
+      "answer": "Heat Island",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "ปรากฏการณ์ที่พื้นที่ในเมืองใหญ่มีอุณหภูมิสูงกว่าพื้นที่ชนบทอย่างชัดเจน เกิดจากการแทนที่พื้นที่ธรรมชาติด้วยคอนกรีตและตึกสูง",
+      "image": "/games/meword/MW0025.png",
+      "answerHashes": [
+        "f429ddc80d4e20df4672715a2a3f3d4b4b51673e51636e8893577191fde3855e"
+      ]
+    },
+    {
+      "id": "MW0026",
+      "answer": "ปล่อยเต่า",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 2,
+      "stars": 1,
+      "meaning": "การคืนสิ่งมีชีวิตกลับสู่ถิ่นที่อยู่อาศัยตามธรรมชาติที่เหมาะสม เพื่อช่วยรักษาสมดุลของระบบนิเวศและความหลากหลายทางชีวภาพ",
+      "image": "/games/meword/MW0026.png",
+      "answerHashes": [
+        "a1fb716183f08f42d32de21d4a8901a086f0fe8d87f37cf83093c7494ab90959"
+      ]
+    },
+    {
+      "id": "MW0027",
+      "answer": "เขาหัวโล้น",
+      "lang": "th",
+      "category": [
+        "environment",
+        "social"
+      ],
+      "syllables": 3,
+      "stars": 4,
+      "meaning": "ภูเขาที่สูญเสียสภาพป่าไม้และต้นไม้ใหญ่จนเตียนโล่ง ซึ่งอาจเกิดจากปัญหาการบุกรุกป่าเพื่อทำเกษตรกรรมเชิงเดี่ยว",
+      "image": "/games/meword/MW0027.png",
+      "answerHashes": [
+        "a8a9771137b9f0711a276ba1eea89d216ae1eff912824a573befe1233a693365"
+      ]
+    },
+    {
+      "id": "MW0028",
+      "answer": "จรรยาบรรณ",
+      "lang": "th",
+      "category": [
+        "governance"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "หลักความประพฤติปฏิบัติอันเหมาะสมแสดงถึงคุณธรรมและจริยธรรมที่พึงปฏิบัติในการประกอบวิชาชีพ",
+      "image": "/games/meword/MW0028.png",
+      "answerHashes": [
+        "0f7af46e337bccd30894c4ef627a78664aae99371d98f4262a8fc9c12cc4b6fd"
+      ]
+    },
+    {
+      "id": "MW0029",
+      "answer": "Green Bond",
+      "lang": "en",
+      "category": [
+        "environment",
+        "economy"
+      ],
+      "syllables": 2,
+      "stars": 3,
+      "meaning": "ตราสารหนี้ที่ออกโดยภาครัฐหรือเอกชนเพื่อระดมเงินทุนไปใช้ในโครงการด้านสิ่งแวดล้อม เช่น พลังงานสะอาด การขนส่งที่เป็นมิตรต่อโลก และการจัดการน้ำ",
+      "image": "/games/meword/MW0029.png",
+      "answerHashes": [
+        "c264348cc97b41d1cc3e22ec35d3b3d9d0778d05cb7c7e2cae17be965cca6b0e"
+      ]
+    },
+    {
+      "id": "MW0030",
+      "answer": "คนไร้บ้าน",
+      "lang": "th",
+      "category": [
+        "social",
+        "economy"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "บุคคลที่ไม่มีที่อยู่อาศัยเป็นหลักเป็นแหล่ง ไม่สามารถเข้าถึงที่พักอาศัยที่มั่นคงปลอดภัยตามแบบปกติทั่วไปได้ ต้องใช้ชีวิตและหลับนอนตามพื้นที่สาธารณะ",
+      "image": "/games/meword/MW0030.png",
+      "answerHashes": [
+        "a4eb97c80095a71862b9655b637ee92fe2fdf4adad1ec6b7edbbf9567d99ee2b"
+      ]
+    },
+    {
+      "id": "MW0031",
+      "answer": "ISO",
+      "lang": "en",
+      "category": [
+        "environment",
+        "economy"
+      ],
+      "syllables": 2,
+      "stars": 1,
+      "meaning": "มาตรฐานการวัดคุณภาพองค์กรต่างๆ เพื่อรับรองระบบการบริหารและการดำเนินงานขององค์กร",
+      "image": "/games/meword/MW0031.png",
+      "answerHashes": [
+        "e0e4548df88a35d5854d052281c5deedad16f286f82cb2c23f2f9dea494834ac"
+      ]
+    },
+    {
+      "id": "MW0032",
+      "answer": "ชนพื้นเมือง",
+      "lang": "th",
+      "category": [
+        "social",
+        "economy"
+      ],
+      "syllables": 3,
+      "stars": 1,
+      "meaning": "กลุ่มชาติพันธุ์ดั้งเดิมที่อาศัยอยู่ในดินแดนนั้นๆ มาก่อนที่จะมีการสร้างประเทศหรือก่อนยุคอาณานิคม",
+      "image": "/games/meword/MW0032.png",
+      "answerHashes": [
+        "fa66626c2b21c10a0990211d875f6f5f98ece6a83e08bab62457b5b42c196493"
+      ]
+    },
+    {
+      "id": "MW0033",
+      "answer": "ฟอกเงิน",
+      "lang": "th",
+      "category": [
+        "economy",
+        "governance"
+      ],
+      "syllables": 2,
+      "stars": 4,
+      "meaning": "กระบวนการนำเงินหรือทรัพย์สินที่ได้มาอย่างผิดกฎหมายมาเปลี่ยนสภาพ เพื่อนำกลับมาใช้ได้โดยไม่ถูกตรวจสอบ",
+      "image": "/games/meword/MW0033.png",
+      "answerHashes": [
+        "eb5ff6f60b1392d687bbf32b2aff262a760b3f98887b2b728f134dd6ff45c4ca"
+      ]
+    },
+    {
+      "id": "MW0034",
+      "answer": "คาบสมุทร",
+      "lang": "th",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 1,
+      "meaning": "ลักษณะทางภูมิศาสตร์ที่เป็นผืนแผ่นดินยื่นออกไปในทะเลหรือมหาสมุทร โดยมีน้ำล้อมรอบอยู่ถึง 3 ด้าน",
+      "image": "/games/meword/MW0034.png",
+      "answerHashes": [
+        "e4bb5cee16921839e58a3ff28807c8cf6d54115f7e021e46b65014799d4d3b9e"
+      ]
+    },
+    {
+      "id": "MW0035",
+      "answer": "Carbon Sink",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "ระบบธรรมชาติหรือพื้นที่ที่ทำหน้าที่ดูดซับและเก็บก๊าซคาร์บอนไดออกไซด์ (CO₂) จากชั้นบรรยากาศไว้",
+      "image": "/games/meword/MW0035.png",
+      "answerHashes": [
+        "ae145e36fb809c2feba0bf45026000b81a2c87078b0bee1a52b2d83702fc0539"
+      ]
+    },
+    {
+      "id": "MW0036",
+      "answer": "Aerosol",
+      "lang": "en",
+      "category": [
+        "environment"
+      ],
+      "syllables": 3,
+      "stars": 3,
+      "meaning": "อนุภาคของแข็งหรือของเหลวขนาดเล็กมาก ที่แขวนลอยและฟุ้งกระจายอยู่ในก๊าซหรือในอากาศ",
+      "image": "/games/meword/MW0036.png",
+      "answerHashes": [
+        "ca596b017c8fbf1dca0ccf5f39b9182f9c44723b61485479b6d0c3578e5f4699"
+      ]
+    },
+    {
+      "id": "MW0037",
+      "answer": "น้ำมันรั่ว",
+      "lang": "th",
+      "category": [
+        "environment",
+        "economy"
+      ],
+      "syllables": 3,
+      "stars": 2,
+      "meaning": "ภัยพิบัติทางสิ่งแวดล้อม ที่เกิดจากน้ำมันดิบหรือน้ำมันเชื้อเพลิงรั่วไหลลงสู่แหล่งน้ำธรรมชาติ",
+      "image": "/games/meword/MW0037.png",
+      "answerHashes": [
+        "72d42e1293cb1601148a1e16a3f32c44c83e7c3122b0dd9cdd37a12bd58c5fc0"
+      ]
     }
   ]
 }
