@@ -638,6 +638,30 @@ main {
   gap: 5px;
 }
 
+.meword-sort-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.meword-sort-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.meword-sort-chip.active {
+  background: var(--primary-bg);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
 .word-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
@@ -646,6 +670,10 @@ main {
 
 .word-card {
   position: relative;
+  /* Establishes a stacking context of its own — otherwise the watermark's
+     negative z-index below escapes past this card's own background and
+     scopes against a much higher ancestor instead, burying it. */
+  z-index: 0;
   aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
@@ -667,6 +695,18 @@ main {
 .word-card.solved {
   background: var(--primary-bg);
   border-color: var(--primary);
+}
+
+.word-card-watermark {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  margin: auto;
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  opacity: 0.1;
+  pointer-events: none;
 }
 
 .word-card-index {
@@ -693,6 +733,35 @@ main {
 .word-card-stars .star.filled {
   opacity: 1;
   filter: none;
+}
+
+.word-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.word-card-lang {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.word-card-syllables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  max-width: 32px;
+}
+
+.word-card-syllable-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
 }
 
 .word-card-check {

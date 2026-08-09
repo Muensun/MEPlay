@@ -18,11 +18,13 @@ function Stars({ count }) {
 }
 
 // Deliberately narrow props — a card must be structurally incapable of
-// rendering the word, image, category, or syllable count, since any of
-// those would leak the answer before the question even starts. Only the
-// item number, star rating (unsolved) or a checkmark + best score
-// (solved) shows.
-export default function WordCard({ index, stars, solved, bestScore, disabled, onClick }) {
+// rendering the word, image, category, or meaning, since any of those
+// would leak the answer before the question even starts. Star rating,
+// language, and syllable count are metadata about the word rather than
+// the word itself, so those are fine to show — they help a player pick
+// which card to play next. Only the item number, star rating (unsolved)
+// or a checkmark + best score (solved) shows beyond that.
+export default function WordCard({ index, stars, lang, syllables, solved, bestScore, disabled, onClick }) {
   return (
     <button
       type="button"
@@ -30,6 +32,9 @@ export default function WordCard({ index, stars, solved, bestScore, disabled, on
       onClick={onClick}
       disabled={disabled}
     >
+      {!solved && (
+        <img src="/games/meword.png" alt="" className="word-card-watermark" aria-hidden="true" />
+      )}
       <span className="word-card-index">{index}</span>
       {solved ? (
         <>
@@ -41,6 +46,18 @@ export default function WordCard({ index, stars, solved, bestScore, disabled, on
       ) : (
         <Stars count={stars} />
       )}
+      <span className="word-card-meta">
+        <img
+          src={`/games/meword/${lang === 'th' ? 'th' : 'eng'}.png`}
+          alt=""
+          className="word-card-lang"
+        />
+        <span className="word-card-syllables" aria-label={`${syllables} syllables`}>
+          {Array.from({ length: syllables }, (_, i) => (
+            <span key={i} className="word-card-syllable-dot" />
+          ))}
+        </span>
+      </span>
       {solved && <span className="word-card-practice">{en.games.meword.practiceLabel}</span>}
     </button>
   );

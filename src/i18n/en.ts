@@ -83,6 +83,13 @@ export const en = {
       backToHome: '← Back to home',
       backToWordsCta: 'Back to words',
       solvedSummary: (solved: number, total: number) => `${solved} / ${total} solved`,
+      sortLabel: 'Sort',
+      sortOptions: {
+        default: 'Shuffled',
+        difficulty: 'Difficulty',
+        done: 'Done',
+        syllable: 'Syllables',
+      },
       practiceLabel: 'Practice · no points',
       startCta: 'Start',
       lowBalanceTitle: 'Not enough time',
