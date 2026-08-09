@@ -105,6 +105,7 @@ export const en = {
       correctFeedback: 'Correct!',
       correctArithmetic: (base: number, multiplier: number, total: number) =>
         `${base} × ${multiplier} = ${total}`,
+      meaningLabel: 'Meaning',
       timeUpPopupTitle: 'Time up!!',
       practiceResultTitle: 'Practice round',
     },

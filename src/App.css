@@ -1035,6 +1035,16 @@ main {
   color: var(--danger);
 }
 
+.meword-meaning {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.meword-meaning strong {
+  color: inherit;
+}
+
 /* Splash */
 .splash {
   position: fixed;

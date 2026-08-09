@@ -184,6 +184,11 @@ export default function Question({ word, alreadySolved, onBack }) {
           {!alreadySolved && (
             <p>{t.correctArithmetic(Math.round(base), MEWORD_STAR_MULTIPLIER[word.stars] ?? 1, state.score)}</p>
           )}
+          {word.meaning && (
+            <p className="meword-meaning">
+              <strong>{t.meaningLabel}:</strong> {word.meaning}
+            </p>
+          )}
           <button className="btn-primary" onClick={onBack} type="button">
             {t.backToWordsCta}
           </button>
